@@ -1,22 +1,22 @@
 <template>
-  <div class="page-login">
+  <div class="page-login" >
     <el-card class="login-form" shadow="always">
       <div slot="header">
-        <span class="form-title">卡片名称</span>
+        <span class="form-title">管理系统</span>
       </div>
-      <el-input placeholder="请输入内容" v-model="username">
+      <el-input placeholder="请输入用户名" v-model="username">
         <template slot="prepend">
           <i class="el-icon-user"></i>
         </template>
       </el-input>
       <div class="divider"></div>
-      <el-input placeholder="请输入内容" v-model="password">
+      <el-input placeholder="请输入密码" v-model="password">
         <template slot="prepend">
           <i class="el-icon-lock"></i>
         </template>
       </el-input>
       <div class="divider"></div>
-      <el-button type="primary" style="width: 100%;" @click="validateForm()">登陆</el-button>
+      <el-button type="primary" style="width: 100%;" @click="validateForm()"  :loading="loading">登陆</el-button>
       <div class="divider"></div>
       <a href="#" style="float: right;">忘记密码</a>
     </el-card>
@@ -24,24 +24,26 @@
     <p class="copyright">
       Copyright
       <i aria-hidden="true" class="fa fa-copyright"></i> {{yearString}} GG Projects 出品
-      <a href="https://github.com/xzcode/ggserver">@GGServer</a>
+      <a target="_blank" href="https://github.com/xzcode/ggserver">@GGServer</a>
     </p>
 
-    <bg-anim />
+    <bg-blocks />
   </div>
 </template>
 
 <script>
-import BgAnim from "@/components/bg-anim";
+import BgBlocks from "@/components/bg-blocks";
+
 export default {
   components: {
-    BgAnim
+    BgBlocks,
   },
   mixins: [
     //localeMixin
   ],
   data() {
     return {
+      loading: false,
       username: null,
       password: null
     };
@@ -62,6 +64,18 @@ export default {
         this.$message.error("密码不能为空");
         return;
       }
+      this.loading = true;
+      setTimeout(() => {
+        this.$message.success({
+          message: '登陆成功',
+          duration: 1000,
+          onClose: () => {
+            this.$router.push("/main")
+            this.loading = false;
+          }
+        });
+        
+      }, 1000);
     },
     submit() {}
     
@@ -80,6 +94,7 @@ export default {
   height: 100%;
 
   .copyright {
+    z-index: -100;
     position: absolute;
     bottom: 10px;
     color: $color-info;
@@ -92,6 +107,7 @@ export default {
 }
 
 .login-form {
+  background-color: rgba($color: #ffffff, $alpha: 0.5);
   width: 300px;
   padding: 20px 20px 50px 20px;
 

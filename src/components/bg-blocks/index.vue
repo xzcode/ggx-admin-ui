@@ -1,14 +1,14 @@
 <template>
   <div class="bg-anim">
     <ul class="circles">
-      <li v-for="n in 20" :key="n"></li>
+      <li v-for="n in 10" :key="n"></li>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: "bg-anim",
+  name: "bg-blocks",
   data() {
     return {};
   }
@@ -35,18 +35,17 @@ export default {
     width: 20px;
     height: 20px;
     background: #eeeded;
-    animation: animate 25s linear infinite;
+    animation: animate 15s linear infinite;
     bottom: -200px;
+    border-radius: 5px;
     @keyframes animate {
       0% {
         transform: translateY(0) rotate(0deg);
         opacity: 1;
-        border-radius: 0;
       }
       100% {
         transform: translateY(-1000px) rotate(720deg);
         opacity: 0;
-        border-radius: 50%;
       }
     }
     &:nth-child(1) {
