@@ -3,19 +3,15 @@
     <el-aside class="main-left-side">
       <el-menu
         class="left-menu"
-        default-active="2"
+        :default-active="menus[0].path"
+        :router="true"
         :collapse="leftMenu.isCollapse"
-        @open="menuOpen"
-        @close="menuClose"
         background-color="#232323"
         text-color="#ffffff"
         active-text-color="#409EFF"
         :class="[leftMenu.isCollapse ? 'collapsed' : '' ]"
       >
-
-      <menutree :data="menus" />
-
-
+        <menutree :data="menus" />
       </el-menu>
     </el-aside>
 
@@ -40,7 +36,9 @@
           <el-tab-pane label="配置管理"></el-tab-pane>
           <el-tab-pane label="角色管理"></el-tab-pane>
           <el-tab-pane label="定时任务补偿"></el-tab-pane>
-          <router-view></router-view>
+          <transition name="fade">
+            <router-view></router-view>
+          </transition>
         </el-tabs>
       </el-main>
 
@@ -58,10 +56,8 @@ export default {
   components: {
     menutree
   },
-  data () {
-    return {
-      
-    }
+  data() {
+    return {};
   }
 };
 </script>
@@ -84,6 +80,13 @@ export default {
   /*滚动条里面小方块*/
   border-radius: 5px;
   background-color: #555;
+}
+
+.fade-enter-active, .fade-leave-avtive {
+    transition: opacity 1s
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0
 }
 
 .main-container {
@@ -122,16 +125,13 @@ export default {
       line-height: $header-height;
     }
 
-
     .tabs {
       height: 100%;
     }
   }
 
-
   .main-footer {
     display: none;
   }
-
 }
 </style>

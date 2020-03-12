@@ -3,7 +3,7 @@
     <template v-for="(item, index) in data">
       
 
-      <el-submenu v-if="item.children" :index="item.index" :key="index">
+      <el-submenu v-if="item.children" :index="item.path" :key="index">
 
         <template slot="title">
           <i :class="item.icon"></i>
@@ -14,7 +14,7 @@
 
       </el-submenu>
 
-      <el-menu-item v-else :index="item.index" :key="index">
+      <el-menu-item v-else :index="item.path" :key="index">
         <i :class="item.icon"></i>
         <span slot="title">{{item.name}}</span>
       </el-menu-item>

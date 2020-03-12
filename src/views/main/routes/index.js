@@ -1,5 +1,4 @@
 
-import dashboardRoutes from '../children/dashboard/routes'
 
 export default [
     {
@@ -12,7 +11,8 @@ export default [
         path: '/main',
         component: () => import('@/views/main'),
         children: [
-            ...dashboardRoutes
+            ...require('../children/dashboard/routes').default,
+            ...require('../children/system-config/routes').default,
         ]
     }
 

@@ -11,9 +11,15 @@ const menus = [
       children: null
     },
     {
+        name: "系统管理",
+        path:'system-config',
+        icon: 'el-icon-s-tools',
+        children: null
+      },
+    {
         name: "测试01",
         index:'test01',
-        icon: 'el-icon-list',
+        icon: 'el-icon-s-order',
         children: [
             {
                 name: "选项1",
