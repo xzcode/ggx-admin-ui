@@ -4,22 +4,22 @@ import store from '../store'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+import mainRoutes from '@/views/main/routes'
+import loginRoutes from '@/views/login/routes'
+
 Vue.use(VueRouter)
 
-const routes = [
+export const routes = [
   {
-    path: '/main',
-    name: 'main',
-    component: () => import('../views/main')
+    name: 'default',
+    path: '/',
+    redirect: 'login'
   },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/login')
-  }
+  ...loginRoutes,
+  ...mainRoutes,
 ]
 
-const router = new VueRouter({
+export const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
@@ -29,7 +29,7 @@ const router = new VueRouter({
 //路由前置过滤
 router.beforeEach((to, from, next) => {
 
-  console.log(to, from , next, "store---->",store)
+  //console.log(to, from , next, "store---->",store)
 
   //使用加载进度条工具
   NProgress.start();

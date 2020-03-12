@@ -53,9 +53,12 @@ export default {
       return new Date().getFullYear();
     }
   },
-  mounted() {},
+  mounted() {
+
+  },
   methods: {
     validateForm() {
+
       if (!this.username) {
         this.$message.error("用户名不能为空");
         return;

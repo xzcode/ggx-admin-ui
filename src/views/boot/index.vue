@@ -1,29 +1,22 @@
-<template>
-</template>
+<template></template>
 
 <script >
-import { Loading } from 'element-ui';
-
 export default {
-  props: {
-    
+  name: "boot",
+  props: {},
+  data() {
+    return {};
   },
-  created() {
-    this.showLoading();
-  },
-  methods: {
-    showLoading() {
-      this.lo = Loading.service({fullscreen: true});
-        this.$router.push({path: '/main'}, () => {
-          this.lo.close();
-        });
-        
-    }
-  }
-
-}
+  methods: {},
+  beforeCreate(){},
+  created() {},
+  mounted: {},
+  beforeUpdate() {},
+  updated() {},
+  beforeDestroy(){},
+  destroyed(){}
+};
 </script>
 
-<style>
-
+<style lang="scss" scoped>
 </style>
