@@ -104,8 +104,9 @@ const store = {
             }
 
             state.selectedTab = selectedTab;
+            state.tabs.push({...selectedTab})
+
             
-            state.tabs.push(state.selectedTab)
         },
         tabRemove(state, path) {
             let index = 0;
@@ -117,25 +118,39 @@ const store = {
             }
             state.tabs = state.tabs.filter((e, i) => path != e.name );
             state.tabs[index - 1] && (state.selectedTab = state.tabs[index - 1])
+            router.push(state.selectedTab.name)
             
         },
         tabClick(state, data) {
-            router.push(data.name)
+            router.currentRoute.path != data.name && router.push(data.name)
         },
         initMenu(state) {
             
             
         },
-        initTabs(state) {
-            if(state.tabs == null || state.tabs.length == 0) {
-                let menu = state.menus[0];
-                state.selectedTab = {
-                    title: menu.name,
-                    name: menu.path,
-                    closeable: false
+        hasTab(state, tabName) {
+            for (const tab of state.tabs) {
+                if(tab.name == tabName) {
+                    return tab;
                 }
-                state.tabs.push(state.selectedTab)
             }
+        },
+        initTabs(state) {
+            let menu = menus[0];
+            console.log(menu)
+            state.selectedTab = {
+                title: menu.name,
+                name: menu.path,
+                closeable: false
+            }
+            state.tabs.push({...state.selectedTab})
+
+            let initPath = router.currentRoute.path;
+
+            if(initPath && initPath != '') {
+                this.commit('main/menuSelect',initPath)
+            }
+            
         }
     },
     actions: {
