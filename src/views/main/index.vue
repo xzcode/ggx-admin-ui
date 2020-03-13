@@ -1,6 +1,6 @@
 <template>
   <el-container class="main-container">
-    <el-aside class="main-left-side">
+    <el-aside class="main-left-side" width="auto">
       <el-menu
         class="left-menu"
         :default-active="menus[0].path"
@@ -11,7 +11,9 @@
         active-text-color="#409EFF"
         :class="[leftMenu.isCollapse ? 'collapsed' : '' ]"
       >
+        <div class="main-logo">GG ADMIN UI</div>
         <menutree :data="menus" />
+
       </el-menu>
     </el-aside>
 
@@ -34,8 +36,6 @@
         <el-tabs type="border-card" closable class="tabs">
           <el-tab-pane label="用户管理"></el-tab-pane>
           <el-tab-pane label="配置管理"></el-tab-pane>
-          <el-tab-pane label="角色管理"></el-tab-pane>
-          <el-tab-pane label="定时任务补偿"></el-tab-pane>
           <transition name="fade">
             <router-view></router-view>
           </transition>
@@ -82,12 +82,17 @@ export default {
   background-color: #555;
 }
 
-.fade-enter-active, .fade-leave-avtive {
-    transition: opacity 1s
+.main-logo {
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  height: 60px;
 }
-.fade-enter, .fade-leave-to {
-    opacity: 0
-}
+
+
 
 .main-container {
   height: 100%;
@@ -97,8 +102,12 @@ export default {
 
     .left-menu {
       height: 100%;
-      width: 300px;
     }
+
+    .left-menu:not(.el-menu--collapse) {
+      width: 260px;
+    }
+
     .collapsed {
       width: fit-content;
     }
@@ -123,6 +132,10 @@ export default {
     .breadcrumb {
       height: $header-height;
       line-height: $header-height;
+    }
+
+    .main-content {
+      padding: 0px;
     }
 
     .tabs {
