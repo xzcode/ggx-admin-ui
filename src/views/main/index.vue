@@ -3,17 +3,21 @@
     <el-aside class="main-left-side" width="auto">
       <el-menu
         class="left-menu"
-        :default-active="menus[0].path"
         :router="true"
         :collapse="leftMenu.isCollapse"
         background-color="#232323"
         text-color="#ffffff"
         active-text-color="#409EFF"
         :class="[leftMenu.isCollapse ? 'collapsed' : '' ]"
+        :collapse-transition="false"
+        @select="menuSelect"
+        :default-active="activeMenu"
       >
-        <div class="main-logo">GG ADMIN UI</div>
+        <div class="main-logo">
+          <div v-if="!leftMenu.isCollapse">GG ADMIN UI</div>
+          <div v-else>GG</div>
+        </div>
         <menutree :data="menus" />
-
       </el-menu>
     </el-aside>
 
@@ -23,23 +27,37 @@
           <i class="el-icon-s-fold"></i>
         </div>
         <el-breadcrumb separator="/" class="breadcrumb">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>
-            <a href="/">活动管理</a>
-          </el-breadcrumb-item>
           <el-breadcrumb-item>活动列表</el-breadcrumb-item>
           <el-breadcrumb-item>活动详情</el-breadcrumb-item>
         </el-breadcrumb>
       </el-header>
 
       <el-main class="main-content">
-        <el-tabs type="border-card" closable class="tabs">
-          <el-tab-pane label="用户管理"></el-tab-pane>
-          <el-tab-pane label="配置管理"></el-tab-pane>
+        <el-tabs
+          type="border-card"
+          class="tabs"
+          v-model="selectedTab.name"
+          @tab-remove="tabRemove"
+          @tab-click="tabClick"
+        >
+          <template v-for="(item, index) in tabs">
+            <el-tab-pane
+              :key="index + 111"
+              :label="item.title"
+              :name="item.name"
+              :closable="item.closeable"
+            ></el-tab-pane>
+          </template>
+
+
           <transition name="fade">
             <router-view></router-view>
           </transition>
+
+          
         </el-tabs>
+
+
       </el-main>
 
       <el-footer class="main-footer">Footer</el-footer>
@@ -58,6 +76,9 @@ export default {
   },
   data() {
     return {};
+  },
+  created() {
+    this.initTabs();
   }
 };
 </script>
@@ -91,8 +112,6 @@ export default {
   padding: 10px;
   height: 60px;
 }
-
-
 
 .main-container {
   height: 100%;
@@ -135,7 +154,7 @@ export default {
     }
 
     .main-content {
-      padding: 0px;
+      padding: 10px;
     }
 
     .tabs {
