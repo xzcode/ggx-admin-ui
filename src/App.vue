@@ -25,4 +25,11 @@ body,
 .fade-enter, .fade-leave-to {
     opacity: 0
 }
+#nprogress .spinner {
+  display: block;
+  position: fixed;
+  z-index: 1031;
+  top: 15px;
+  left: 15px;
+}
 </style>

@@ -24,11 +24,14 @@
     <el-container class="main-right-side">
       <el-header class="main-header">
         <div class="sfold" @click="menuCollapse">
-          <i class="el-icon-s-fold"></i>
+          <i :class="leftMenu.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
         </div>
         <el-breadcrumb separator="/" class="breadcrumb">
-          <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-          <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+        <transition name="fade">
+          <el-breadcrumb-item v-for="(item, index) in selectedTab.fullnames" :key="index">
+            {{item}}
+          </el-breadcrumb-item>
+        </transition>
         </el-breadcrumb>
       </el-header>
 
@@ -154,7 +157,8 @@ export default {
     }
 
     .main-content {
-      padding: 10px;
+      padding: 8px;
+      overflow: hidden;
     }
 
     .tabs {
