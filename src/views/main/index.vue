@@ -9,13 +9,13 @@
         text-color="#ffffff"
         active-text-color="#409EFF"
         :class="[leftMenu.isCollapse ? 'collapsed' : '' ]"
-        :collapse-transition="false"
+        :collapse-transition="true"
         @select="menuSelect"
         :default-active="activeMenu"
       >
         <div class="main-logo">
           <div v-if="!leftMenu.isCollapse">GG ADMIN UI</div>
-          <div v-else>GG</div>
+          <div v-if="leftMenu.isCollapse">GG</div>
         </div>
         <menutree :data="menus" />
       </el-menu>
@@ -27,12 +27,35 @@
           <i :class="leftMenu.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
         </div>
         <el-breadcrumb separator="/" class="breadcrumb">
-        <transition name="fade">
-          <el-breadcrumb-item v-for="(item, index) in selectedTab.fullnames" :key="index">
-            {{item}}
-          </el-breadcrumb-item>
-        </transition>
+          <transition-group name="fade">
+            <el-breadcrumb-item v-for="(item, index) in selectedTab.fullnames" :key="index">{{item}}</el-breadcrumb-item>
+          </transition-group>
         </el-breadcrumb>
+
+        <div class="user-menu">
+          <el-dropdown trigger="click">
+            <el-image
+              class="avatar"
+              :src="'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'"
+              fit="cover"
+            >
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item icon="el-icon-user-solid">{{userInfo.username}}</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-lock" command="b" divided>修改密码</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-warning-outline" command="a">注销</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+
+        <div class="tool-bar">
+          <el-button @click="triggerFullscreen">
+            <i class="el-icon-rank"></i>
+          </el-button>
+        </div>
       </el-header>
 
       <el-main class="main-content">
@@ -43,24 +66,19 @@
           @tab-remove="tabRemove"
           @tab-click="tabClick"
         >
-          <template v-for="(item, index) in tabs">
+          <template v-for="(item) in tabs">
             <el-tab-pane
-              :key="index + 111"
+              :key="item.name"
               :label="item.title"
               :name="item.name"
               :closable="item.closeable"
             ></el-tab-pane>
           </template>
 
-
           <transition name="fade">
             <router-view></router-view>
           </transition>
-
-          
         </el-tabs>
-
-
       </el-main>
 
       <el-footer class="main-footer">Footer</el-footer>
@@ -87,6 +105,8 @@ export default {
 </script>
 
 <style  scoped lang="scss">
+@import "@/css/common.scss";
+
 .main-left-side::-webkit-scrollbar-track {
   /* 定义滚动条轨道  内阴影+圆角*/
   border-radius: 5px;
@@ -140,29 +160,92 @@ export default {
 
     .main-header {
       height: $header-height;
-    }
 
-    .sfold {
-      height: $header-height;
-      width: $header-height;
-      line-height: $header-height;
-      float: left;
-      font-size: 28px;
-      cursor: pointer;
-    }
+      .sfold {
+        height: $header-height;
+        width: $header-height;
+        line-height: $header-height;
+        float: left;
+        font-size: 28px;
+        cursor: pointer;
+      }
 
-    .breadcrumb {
-      height: $header-height;
-      line-height: $header-height;
+      .breadcrumb {
+        height: $header-height;
+        line-height: $header-height;
+        float: left;
+        font-weight: bold;
+      }
+
+      .user-menu {
+        height: $header-height;
+        width: 50px;
+        float: right;
+        cursor: pointer;
+        color: $color-primary;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .avatar {
+          height: 36px;
+          width: 36px;
+          padding: 5px;
+          box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+          border-radius: 4px;
+          border: 1px solid #ebeef5;
+        }
+
+        .el-dropdown {
+          color: $color-primary;
+        }
+      }
+
+      .tool-bar {
+        height: $header-height;
+        line-height: $header-height;
+        float: right;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+
+        button {
+          margin: 0px 5px;
+          border: none;
+          font-size: 22px;
+          width: 50px;
+          height: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
     }
 
     .main-content {
       padding: 8px;
       overflow: hidden;
-    }
 
-    .tabs {
-      height: 100%;
+      .tabs {
+        height: 100%;
+
+        .el-tabs__nav-wrap {
+          padding-left: 32px;
+
+          .el-tabs__nav-prev {
+            width: 32px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 22px;
+            background-color: #fff;
+            border-bottom: 1px solid #ccc;
+          }
+        }
+
+      }
     }
   }
 

@@ -11,8 +11,9 @@ export default [
         path: '/main',
         component: () => import('@/views/main'),
         children: [
-            ...require('../children/dashboard/routes').default,
-            ...require('../children/system-config/routes').default,
+            ...require('../sub-views/dashboard/routes').default,
+            ...require('../sub-views/system-config/routes').default,
+            ...require('../sub-views/test01/routes').default,
         ]
     }
 

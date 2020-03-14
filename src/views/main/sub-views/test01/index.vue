@@ -1,5 +1,7 @@
 <template>
-  <div>test01</div>
+  <transition name="fade">
+      <router-view></router-view>
+    </transition>
 </template>
 
 <script >

@@ -2,7 +2,8 @@
 
 
 import { router } from '@/router'
-import dashboard from '../children/dashboard/store'
+import dashboard from '../sub-views/dashboard/store'
+import screenfull from 'screenfull'
 
 const menus = [
     {
@@ -33,8 +34,8 @@ const menus = [
                 children: null
             },
             {
-                name: "/main/test01/option03",
-                path: 'option03',
+                name: "选项2",
+                path: '/main/test01/option02',
                 children: null
             }
         ]
@@ -47,14 +48,18 @@ const menus = [
     },
 ]
 
-const matchMenu = function (path) {
+const matchMenu = function (path, menus) {
     for (let i = 0; i < menus.length; i++) {
         const m = menus[i];
         if (m.path == path) {
             return m;
         }
         if (m.children) {
-            return matchMenu(m.children);
+            let cm = matchMenu(path, m.children);
+            if (cm) {
+                return cm;
+            }
+
         }
     }
 }
@@ -80,15 +85,95 @@ const store = {
             isCollapse: false
         },
         activeMenu: menus[0].path,
-        tabs: [],
-        selectedTab: null
+        tabs: [
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+            {
+                title: 'xxxxx',
+                name: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            },
+        ],
+        selectedTab: null,
+        userInfo: {
+            username: '陌生用户',
+            avatar: '',
+            token: null,
+            permissions: []
+        },
+        isFullscreen: false
     },
     mutations: {
         menuCollapse(state) {
             state.leftMenu.isCollapse = !state.leftMenu.isCollapse;
         },
         menuSelect(state, path) {
-            let menu = matchMenu(path);
+            let menu = matchMenu(path, state.menus);
             if (!menu) {
                 return;
             }
@@ -111,32 +196,32 @@ const store = {
                 title: menu.name,
                 name: menu.path,
                 fullnames: menu.fullnames,
-                closeable: closeable
+                closeable
             }
 
             state.selectedTab = selectedTab;
             state.tabs.push({ ...selectedTab })
-
+            
 
         },
         tabRemove(state, path) {
             let index = 0;
-            for (let i = 0; i < state.tabs.length; i++) {
-                if (state.tabs[i].name == path) {
-                    index = i;
-                    break;
-                }
+            
+            state.tabs.forEach((e, i) => path != e.name || !(index = i));
+            state.tabs.splice(index, 1);
+
+            if(state.tabs[index - 1]) {
+                state.selectedTab = {...state.tabs[index - 1]}
             }
-            state.tabs = state.tabs.filter((e, i) => path != e.name);
-            state.tabs[index - 1] && (state.selectedTab = state.tabs[index - 1])
             let newPath = state.selectedTab.name;
             router.currentRoute.path != newPath && router.push(newPath);
             state.activeMenu = newPath;
 
         },
         tabClick(state, data) {
+            this.commit('main/menuSelect', data.name)
             router.currentRoute.path != data.name && router.push(data.name);
-            state.activeMenu = data.name;
+            
         },
         initMenu(state) {
 
@@ -169,7 +254,11 @@ const store = {
                 this.commit('main/menuSelect', initPath)
             }
 
-        }
+        },
+        triggerFullscreen(state) {
+            state.isFullscreen = true;
+            screenfull.toggle();
+        },
     },
     actions: {
         testAction(context) {

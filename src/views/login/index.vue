@@ -24,7 +24,7 @@
     <p class="copyright">
       Copyright
       <i aria-hidden="true" class="fa fa-copyright"></i> {{yearString}} GG Projects 出品
-      <a target="_blank" href="https://github.com/xzcode/ggserver">@GGServer</a>
+      <el-link type="primary"  target="_blank" href="https://github.com/xzcode/ggserver">@GGServer</el-link>
     </p>
 
     <bg-blocks />
@@ -88,7 +88,7 @@ export default {
 
 
 <style scoped lang="scss">
-@import "@/css/color.scss";
+@import "@/css/common.scss";
 
 .page-login {
   display: flex;
