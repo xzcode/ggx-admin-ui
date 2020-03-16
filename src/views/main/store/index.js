@@ -77,6 +77,21 @@ const makeFullname = function (pMenus, fullnames = []) {
 
 makeFullname(menus)
 
+const makeTestTabData = function(num) {
+    let arr = [];
+    for (let i = 0; i < num; i++) {
+        arr.push(
+            {
+                name: 'xxxxx',
+                path: 'xxxxxxx',
+                fullnames: 'xxxxxxx',
+                closeable: true
+            }
+        )
+    }
+    return arr;
+}
+
 const store = {
     namespaced: true,
     state: {
@@ -86,78 +101,9 @@ const store = {
         },
         activeMenu: menus[0].path,
         tabs: [
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
-            {
-                title: 'xxxxx',
-                name: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            },
+
+            ...makeTestTabData(20)
+            
         ],
         selectedTab: null,
         userInfo: {
@@ -180,7 +126,7 @@ const store = {
             state.activeMenu = menu.path;
             let selectedTab = null;
             for (const tab of state.tabs) {
-                if (tab.name == path) {
+                if (tab.path == path) {
                     selectedTab = tab;
                     break;
                 }
@@ -193,8 +139,8 @@ const store = {
             let closeable = menus[0].path != menu.path;
 
             selectedTab = {
-                title: menu.name,
-                name: menu.path,
+                name: menu.name,
+                path: menu.path,
                 fullnames: menu.fullnames,
                 closeable
             }
@@ -241,8 +187,8 @@ const store = {
                 return;
             }
             state.selectedTab = {
-                title: menu.name,
-                name: menu.path,
+                name: menu.name,
+                path: menu.path,
                 fullnames: menu.fullnames,
                 closeable: false
             }

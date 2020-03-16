@@ -58,7 +58,10 @@
         </div>
       </el-header>
 
+      <tab-bar :data="tabs"></tab-bar>
+
       <el-main class="main-content">
+        <!-- 
         <el-tabs
           type="border-card"
           class="tabs"
@@ -74,11 +77,13 @@
               :closable="item.closeable"
             ></el-tab-pane>
           </template>
+          
 
+        </el-tabs>
+ -->
           <transition name="fade">
             <router-view></router-view>
           </transition>
-        </el-tabs>
       </el-main>
 
       <el-footer class="main-footer">Footer</el-footer>
@@ -89,11 +94,13 @@
 <script>
 import mapStore from "@/util/map-store-util";
 import menutree from "./components/menutree";
+import tabbar from "./components/tab-bar";
 
 export default {
   extends: mapStore("main"),
   components: {
-    menutree
+    menutree,
+    'tab-bar': tabbar
   },
   data() {
     return {};
