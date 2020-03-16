@@ -11,7 +11,7 @@
         :class="[leftMenu.isCollapse ? 'collapsed' : '' ]"
         :collapse-transition="true"
         @select="menuSelect"
-        :default-active="activeMenu"
+        :default-active="activeMenu.path"
       >
         <div class="main-logo">
           <div v-if="!leftMenu.isCollapse">GG ADMIN UI</div>
@@ -28,7 +28,9 @@
         </div>
         <el-breadcrumb separator="/" class="breadcrumb">
           <transition-group name="fade">
-            <el-breadcrumb-item v-for="(item, index) in selectedTab.fullnames" :key="index">{{item}}</el-breadcrumb-item>
+          <template v-for="(item, index) in selectedTab.fullnames">
+            <el-breadcrumb-item  :key="index">{{item}}</el-breadcrumb-item>
+          </template>
           </transition-group>
         </el-breadcrumb>
 
@@ -58,29 +60,9 @@
         </div>
       </el-header>
 
-      <tab-bar :data="tabs"></tab-bar>
+      <tab-bar/>
 
       <el-main class="main-content">
-        <!-- 
-        <el-tabs
-          type="border-card"
-          class="tabs"
-          v-model="selectedTab.name"
-          @tab-remove="tabRemove"
-          @tab-click="tabClick"
-        >
-          <template v-for="(item) in tabs">
-            <el-tab-pane
-              :key="item.name"
-              :label="item.title"
-              :name="item.name"
-              :closable="item.closeable"
-            ></el-tab-pane>
-          </template>
-          
-
-        </el-tabs>
- -->
           <transition name="fade">
             <router-view></router-view>
           </transition>
@@ -92,12 +74,13 @@
 </template>
 
 <script>
-import mapStore from "@/util/map-store-util";
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapGetters, mapActions } = createNamespacedHelpers('main');
+
 import menutree from "./components/menutree";
 import tabbar from "./components/tab-bar";
 
 export default {
-  extends: mapStore("main"),
   components: {
     menutree,
     'tab-bar': tabbar
@@ -107,7 +90,29 @@ export default {
   },
   created() {
     this.initTabs();
+  },
+  computed: {
+    ...mapState([
+      'menus',
+      'tabs',
+      'leftMenu',
+      'activeMenu',
+      'userInfo',
+    ]),
+    selectedTab() {
+      let filterTabs = this.tabs.filter((e, i) => e.active);
+      return filterTabs.length > 0 && filterTabs[0];
+    }
+  },
+  methods: {
+    ...mapMutations([
+      'triggerFullscreen',
+      'menuCollapse',
+      'menuSelect',
+      'initTabs',
+    ])
   }
+  
 };
 </script>
 
@@ -116,21 +121,25 @@ export default {
 
 .main-left-side::-webkit-scrollbar-track {
   /* 定义滚动条轨道  内阴影+圆角*/
-  border-radius: 5px;
-  background-color: #f5f5f5;
+  background-color: $color-dark;
+  border: none;
+  width: 5px;
+  margin: 0px;
+  padding: 0px;
 }
 
 .main-left-side::-webkit-scrollbar {
   /*滚动条整体样式*/
-  width: 10px;
-  background-color: #555555;
-  border-radius: 5px;
+  width: 5px;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  background-color: $color-dark;
 }
 
 .main-left-side::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
-  border-radius: 5px;
-  background-color: #555;
+  background-color: #ccc;
 }
 
 .main-logo {

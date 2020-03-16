@@ -77,7 +77,7 @@ const makeFullname = function (pMenus, fullnames = []) {
 
 makeFullname(menus)
 
-const makeTestTabData = function(num) {
+const makeTestTabData = function (num) {
     let arr = [];
     for (let i = 0; i < num; i++) {
         arr.push(
@@ -100,14 +100,9 @@ const store = {
             isCollapse: false
         },
         activeMenu: menus[0].path,
-        tabs: [
-
-            ...makeTestTabData(20)
-            
-        ],
-        selectedTab: null,
+        tabs: [...makeTestTabData(20)],
         userInfo: {
-            username: '陌生用户',
+            username: 'unknown',
             avatar: '',
             token: null,
             permissions: []
@@ -123,16 +118,17 @@ const store = {
             if (!menu) {
                 return;
             }
-            state.activeMenu = menu.path;
+            state.activeMenu = menu;
             let selectedTab = null;
             for (const tab of state.tabs) {
                 if (tab.path == path) {
                     selectedTab = tab;
-                    break;
+                } else {
+                    tab.active = false;
                 }
             }
             if (selectedTab) {
-                state.selectedTab = { ...selectedTab };
+                selectedTab.active = true;
                 return;
             }
 
@@ -142,32 +138,36 @@ const store = {
                 name: menu.name,
                 path: menu.path,
                 fullnames: menu.fullnames,
-                closeable
+                closeable,
+                active: true,
             }
 
-            state.selectedTab = selectedTab;
             state.tabs.push({ ...selectedTab })
-            
+
 
         },
         tabRemove(state, path) {
             let index = 0;
-            
-            state.tabs.forEach((e, i) => path != e.name || !(index = i));
-            state.tabs.splice(index, 1);
 
-            if(state.tabs[index - 1]) {
-                state.selectedTab = {...state.tabs[index - 1]}
+            state.tabs.forEach((e, i) => {
+                if (path != e.path) {
+                    e.active = false;
+                } else {
+                    index = i;
+                }
+            });
+            state.tabs.splice(index, 1);
+            let tab = state.tabs[index - 1];
+            if (tab) {
+                tab.active = true;
             }
-            let newPath = state.selectedTab.name;
-            router.currentRoute.path != newPath && router.push(newPath);
-            state.activeMenu = newPath;
+            router.currentRoute.path != tab.path && router.push(tab.path);
 
         },
-        tabClick(state, data) {
-            this.commit('main/menuSelect', data.name)
-            router.currentRoute.path != data.name && router.push(data.name);
-            
+        tabClick(state, path) {
+            this.commit('main/menuSelect', path)
+            router.currentRoute.path != path && router.push(path);
+
         },
         initMenu(state) {
 
@@ -180,19 +180,79 @@ const store = {
                 }
             }
         },
+        tabRemoveCurrent(state) {
+            let index = 0;
+            state.tabs = state.tabs.filter((e, i) => {
+                if (e.active) {
+                    index = i;
+                }
+                return !e.active
+            });
+            if (state.tabs[index - 1]) {
+                this.commit('main/menuSelect', state.tabs[index - 1].path);
+                router.currentRoute.path != path && router.push(state.tabs[index - 1].path);
+            }
+
+
+        },
+        tabRemoveLeft(state) {
+            let index = 0;
+            let currentTab = null;
+            state.tabs.every((e, i) => {
+                if (e.active) {
+                    index = i;
+                    currentTab = e;
+                    return false;
+                }
+                return true;
+            });
+            state.tabs = state.tabs.filter((e, i) => {
+                return i === 0 || i >= index;
+            });
+            let path = currentTab.path;
+            this.commit('main/menuSelect', path);
+            router.currentRoute.path != path && router.push(path);
+        },
+        tabRemoveRight(state) {
+            let index = 0;
+            let currentTab = null;
+            state.tabs.every((e, i) => {
+                if (e.active) {
+                    index = i;
+                    currentTab = e;
+                    return false;
+                }
+                return true;
+            });
+            state.tabs = state.tabs.filter((e, i) => {
+                return i <= index;
+            });
+            let path = currentTab.path;
+            this.commit('main/menuSelect', path);
+            router.currentRoute.path != path && router.push(path);
+        },
+        tabRemoveAll(state) {
+            state.tabs = [state.tabs[0]];
+            let path = state.tabs[0].path;
+            this.commit('main/menuSelect', path);
+            router.currentRoute.path != path && router.push(path);
+        },
+
         initTabs(state) {
             let menu = menus[0];
-            let firstTabs = state.tabs.filter(e => e.name == menu.path);
-            if(firstTabs && firstTabs.length > 0) {
+            let firstTabs = state.tabs.filter(e => e.path == menu.path);
+            if (firstTabs && firstTabs.length > 0) {
                 return;
             }
-            state.selectedTab = {
+            state.activeMenu = menu;
+            let tab = {
                 name: menu.name,
                 path: menu.path,
                 fullnames: menu.fullnames,
-                closeable: false
+                closeable: false,
+                active: true
             }
-            state.tabs.push({ ...state.selectedTab })
+            state.tabs.push(tab)
 
             let initPath = router.currentRoute.path;
 

@@ -8,12 +8,12 @@ const mapStore = function(storeModules) {
     }
     return {
         computed: {
-            ...mapState(Object.keys(store.state || {}))
+            ...mapState(Object.keys(store.state || []))
         },
         methods: {
-            ...mapMutations(Object.keys(store.mutations || {})),
-            ...mapGetters(Object.keys(store.getters || {})),
-            ...mapActions(Object.keys(store.actions || {})),
+            ...mapMutations(Object.keys(store.mutations || [])),
+            ...mapGetters(Object.keys(store.getters || [])),
+            ...mapActions(Object.keys(store.actions || [])),
         }
     }
 }
