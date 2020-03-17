@@ -21,10 +21,12 @@ body,
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 .fade-enter-active, .fade-leave-avtive {
-    transition: opacity 1s
+    transition: all 1s
 }
 .fade-enter, .fade-leave-to {
-    opacity: 0
+    opacity: 0;
+    transform: scale(1.05,1.05);
+    
 }
 #nprogress .spinner {
   display: block;

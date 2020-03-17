@@ -100,7 +100,7 @@ const store = {
             isCollapse: false
         },
         activeMenu: menus[0].path,
-        tabs: [...makeTestTabData(20)],
+        tabs: [],
         userInfo: {
             username: 'unknown',
             avatar: '',
@@ -142,9 +142,7 @@ const store = {
                 active: true,
             }
 
-            state.tabs.push({ ...selectedTab })
-
-
+            state.tabs.push({ ...selectedTab });
         },
         tabRemove(state, path) {
             let index = 0;
@@ -162,6 +160,7 @@ const store = {
                 tab.active = true;
             }
             router.currentRoute.path != tab.path && router.push(tab.path);
+            this.commit('main/menuSelect', tab.path)
 
         },
         tabClick(state, path) {
@@ -188,9 +187,10 @@ const store = {
                 }
                 return !e.active
             });
-            if (state.tabs[index - 1]) {
-                this.commit('main/menuSelect', state.tabs[index - 1].path);
-                router.currentRoute.path != path && router.push(state.tabs[index - 1].path);
+            let selectedTab = state.tabs[index - 1];
+            if (selectedTab) {
+                this.commit('main/menuSelect', selectedTab.path);
+                router.currentRoute.path != selectedTab.path && router.push(selectedTab.path);
             }
 
 
