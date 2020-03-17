@@ -121,9 +121,10 @@ $tab-bar-height: 38px;
 .tab-bar {
   height: $tab-bar-height;
   width: 100%;
-  background-color: #efefef;
-  border-bottom: 1px solid #dfdfdf;
-
+  background-color: #ffffff;
+  border-bottom: 1px solid #b7b7b7;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.22), 0 0 2px 0 rgba(0, 0, 0, 0);
   /*  border: 1px solid #dcdfe6;
   border-left: none;
   border-right: none;

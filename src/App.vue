@@ -25,7 +25,7 @@ body,
 }
 .fade-enter, .fade-leave-to {
     opacity: 0;
-    transform: scale(1.05,1.05);
+    transform: translateX(-10px);
     
 }
 #nprogress .spinner {

@@ -69,7 +69,7 @@ $tab-bar-height: 38px;
 
   padding: 0px 18px;
   color: rgb(143, 143, 143);
-  background-color: rgb(243, 243, 243);
+  
 
   &:hover,
   &.active {
