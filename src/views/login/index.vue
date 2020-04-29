@@ -33,7 +33,12 @@
 
 <script>
 import BgBlocks from "@/components/bg-blocks";
-
+import GGClient from 'ggclient-js/dist/src/GGClient';
+import GGClientConfig from 'ggclient-js/dist/src/config/GGClientConfig';
+const conf = new GGClientConfig();
+conf.wsockConfig.serverUrl = "ws://192.168.1.220:10001/websocket";
+const cli = new GGClient(conf);
+console.log(cli)
 export default {
   components: {
     BgBlocks,
