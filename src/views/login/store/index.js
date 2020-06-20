@@ -1,12 +1,11 @@
-
+import ggx from "@/net/ggx";
 
 export default {
     namespaced: true,
     state: {
         formData: {
             username: null,
-            password: null,
-
+            password: null
         }
     },
     mutations: {
@@ -15,13 +14,9 @@ export default {
         },
         updatePassword(state, data) {
             state.formData.password = data;
-        },
+        }
     },
-    actions: {
-
-    },
-    getters: {
-
-    },
+    actions: {},
+    getters: {},
     modules: {}
-}
+};

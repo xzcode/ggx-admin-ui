@@ -1,4 +1,4 @@
-# gg-admin-ui
+# ggx-admin-ui
 
 ## Project setup
 ```

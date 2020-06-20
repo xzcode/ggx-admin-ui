@@ -1,6 +1,6 @@
 <template></template>
 
-<script >
+<script>
 export default {
   name: "boot",
   props: {},
@@ -8,15 +8,14 @@ export default {
     return {};
   },
   methods: {},
-  beforeCreate(){},
+  beforeCreate() {},
   created() {},
   mounted: {},
   beforeUpdate() {},
   updated() {},
-  beforeDestroy(){},
-  destroyed(){}
+  beforeDestroy() {},
+  destroyed() {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

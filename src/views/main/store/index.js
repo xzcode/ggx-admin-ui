@@ -1,70 +1,67 @@
-
-
-
-import { router } from '@/router'
-import dashboard from '../sub-views/dashboard/store'
-import screenfull from 'screenfull'
+import { router } from "@/router";
+import dashboard from "../sub-views/dashboard/store";
+import screenfull from "screenfull";
+import ggx from "@/net/ggx";
 
 const menus = [
     {
         name: "首页",
-        path: '/main/dashboard',
-        icon: 'el-icon-odometer',
+        path: "/main/dashboard",
+        icon: "el-icon-odometer",
         children: null
     },
     {
         name: "系统管理",
-        path: '/main/system-config',
-        icon: 'el-icon-s-tools',
+        path: "/main/system-config",
+        icon: "el-icon-s-tools",
         children: null
     },
     {
         name: "测试01",
-        path: '/main/test01',
-        icon: 'el-icon-s-order',
+        path: "/main/test01",
+        icon: "el-icon-s-order",
         children: [
             {
                 name: "选项1",
-                path: '/main/test01/option01',
+                path: "/main/test01/option01",
                 children: null
             },
             {
                 name: "选项2",
-                path: '/main/test01/option02',
+                path: "/main/test01/option02",
                 children: null
             },
             {
                 name: "选项2",
-                path: '/main/test01/option02',
+                path: "/main/test01/option02",
                 children: null
             }
         ]
     },
     {
         name: "测试02",
-        path: '/main/test02',
-        icon: 'el-icon-star-on',
+        path: "/main/test02",
+        icon: "el-icon-star-on",
         children: null
-    },
-]
+    }
+];
 
-const matchMenu = function (path, menus) {
+const matchMenu = function(path, menus) {
     for (let i = 0; i < menus.length; i++) {
         const m = menus[i];
         if (m.path == path) {
             return m;
         }
         if (m.children) {
-            let cm = matchMenu(path, m.children);
+            const cm = matchMenu(path, m.children);
             if (cm) {
                 return cm;
             }
-
         }
     }
-}
+};
 
-const makeFullname = function (pMenus, fullnames = []) {
+const makeFullname = function(pMenus, fullnames = []) {
     for (let i = 0; i < pMenus.length; i++) {
         const m = pMenus[i];
         m.fullnames = [...fullnames];
@@ -73,24 +70,22 @@ const makeFullname = function (pMenus, fullnames = []) {
             return makeFullname(m.children, [...m.fullnames]);
         }
     }
-}
+};
 
-makeFullname(menus)
+makeFullname(menus);
 
-const makeTestTabData = function (num) {
-    let arr = [];
+const makeTestTabData = function(num) {
+    const arr = [];
     for (let i = 0; i < num; i++) {
-        arr.push(
-            {
-                name: 'xxxxx',
-                path: 'xxxxxxx',
-                fullnames: 'xxxxxxx',
-                closeable: true
-            }
-        )
+        arr.push({
+            name: "xxxxx",
+            path: "xxxxxxx",
+            fullnames: "xxxxxxx",
+            closeable: true
+        });
     }
     return arr;
-}
+};
 
 const store = {
     namespaced: true,
@@ -102,8 +97,8 @@ const store = {
         activeMenu: menus[0].path,
         tabs: [],
         userInfo: {
-            username: 'unknown',
-            avatar: '',
+            username: "unknown",
+            avatar: "",
             token: null,
             permissions: []
         },
@@ -114,7 +109,7 @@ const store = {
             state.leftMenu.isCollapse = !state.leftMenu.isCollapse;
         },
         menuSelect(state, path) {
-            let menu = matchMenu(path, state.menus);
+            const menu = matchMenu(path, state.menus);
             if (!menu) {
                 return;
             }
@@ -132,15 +127,15 @@ const store = {
                 return;
             }
 
-            let closeable = menus[0].path != menu.path;
+            const closeable = menus[0].path != menu.path;
 
             selectedTab = {
                 name: menu.name,
                 path: menu.path,
                 fullnames: menu.fullnames,
                 closeable,
-                active: true,
-            }
+                active: true
+            };
 
             state.tabs.push({ ...selectedTab });
         },
@@ -155,23 +150,18 @@ const store = {
                 }
             });
             state.tabs.splice(index, 1);
-            let tab = state.tabs[index - 1];
+            const tab = state.tabs[index - 1];
             if (tab) {
                 tab.active = true;
             }
             router.currentRoute.path != tab.path && router.push(tab.path);
-            this.commit('main/menuSelect', tab.path)
-
+            this.commit("main/menuSelect", tab.path);
         },
         tabClick(state, path) {
-            this.commit('main/menuSelect', path)
+            this.commit("main/menuSelect", path);
             router.currentRoute.path != path && router.push(path);
-
         },
-        initMenu(state) {
-
-
-        },
+        initMenu(state) {},
         hasTab(state, tabName) {
             for (const tab of state.tabs) {
                 if (tab.name == tabName) {
@@ -185,15 +175,14 @@ const store = {
                 if (e.active) {
                     index = i;
                 }
-                return !e.active
+                return !e.active;
             });
-            let selectedTab = state.tabs[index - 1];
+            const selectedTab = state.tabs[index - 1];
             if (selectedTab) {
-                this.commit('main/menuSelect', selectedTab.path);
-                router.currentRoute.path != selectedTab.path && router.push(selectedTab.path);
+                this.commit("main/menuSelect", selectedTab.path);
+                router.currentRoute.path != selectedTab.path &&
+                    router.push(selectedTab.path);
             }
-
-
         },
         tabRemoveLeft(state) {
             let index = 0;
@@ -209,8 +198,8 @@ const store = {
             state.tabs = state.tabs.filter((e, i) => {
                 return i === 0 || i >= index;
             });
-            let path = currentTab.path;
-            this.commit('main/menuSelect', path);
+            const path = currentTab.path;
+            this.commit("main/menuSelect", path);
             router.currentRoute.path != path && router.push(path);
         },
         tabRemoveRight(state) {
@@ -227,64 +216,55 @@ const store = {
             state.tabs = state.tabs.filter((e, i) => {
                 return i <= index;
             });
-            let path = currentTab.path;
-            this.commit('main/menuSelect', path);
+            const path = currentTab.path;
+            this.commit("main/menuSelect", path);
             router.currentRoute.path != path && router.push(path);
         },
         tabRemoveAll(state) {
             state.tabs = [state.tabs[0]];
-            let path = state.tabs[0].path;
-            this.commit('main/menuSelect', path);
+            const path = state.tabs[0].path;
+            this.commit("main/menuSelect", path);
             router.currentRoute.path != path && router.push(path);
         },
 
         initTabs(state) {
-            let menu = menus[0];
-            let firstTabs = state.tabs.filter(e => e.path == menu.path);
+            const menu = menus[0];
+            const firstTabs = state.tabs.filter(e => e.path == menu.path);
             if (firstTabs && firstTabs.length > 0) {
                 return;
             }
             state.activeMenu = menu;
-            let tab = {
+            const tab = {
                 name: menu.name,
                 path: menu.path,
                 fullnames: menu.fullnames,
                 closeable: false,
                 active: true
+            };
+            state.tabs.push(tab);
+
+            const initPath = router.currentRoute.path;
+
+            if (initPath && initPath != "") {
+                this.commit("main/menuSelect", initPath);
             }
-            state.tabs.push(tab)
-
-            let initPath = router.currentRoute.path;
-
-            if (initPath && initPath != '') {
-                this.commit('main/menuSelect', initPath)
-            }
-
         },
         triggerFullscreen(state) {
             state.isFullscreen = true;
             screenfull.toggle();
-        },
+        }
     },
     actions: {
-        testAction(context) {
-
-        },
+        testAction(context) {}
     },
     getters: {},
     modules: {
         dashboard
     }
-}
-
-
+};
 
 export const mappedComponent = {
+    computed: {}
+};
 
-    computed: {
-    }
-
-}
-
-
-export default store
+export default store;

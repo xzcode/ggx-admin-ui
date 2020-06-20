@@ -1,3 +1,5 @@
+import ggx from "@/net/ggx";
+
 export default {
     namespaced: true,
     state: {
@@ -6,8 +8,8 @@ export default {
     mutations: {
         updateProp1(state, data) {
             state.prop1 = data;
-        },
+        }
     },
     actions: {},
     getters: {}
-}
+};

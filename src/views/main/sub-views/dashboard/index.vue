@@ -2,17 +2,11 @@
   <div>dashboard</div>
 </template>
 
-<script >
-
+<script>
 export default {
-  created() {
-  },
-  methods: {
-        
-  }
-
-}
+  created() {},
+  methods: {}
+};
 </script>
 
-<style>
-</style>
+<style></style>

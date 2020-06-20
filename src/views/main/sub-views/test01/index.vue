@@ -1,20 +1,14 @@
 <template>
-  <transition name="fade">
-      <router-view></router-view>
+    <transition name="fade">
+        <router-view></router-view>
     </transition>
 </template>
 
-<script >
-
+<script>
 export default {
-  created() {
-  },
-  methods: {
-        
-  }
-
-}
+    created() {},
+    methods: {}
+};
 </script>
 
-<style>
-</style>
+<style></style>
