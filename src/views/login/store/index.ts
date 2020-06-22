@@ -1,9 +1,9 @@
 import ggx from '@/net/ggx';
-import LoginReq from '../../../message/login/LoginReq';
-import LoginResp from '../../../message/login/LoginResp';
+import LoginReq from '@/message/login/LoginReq';
+import LoginResp from '@/message/login/LoginResp';
 import router from '@/router';
 
-export class Store {
+class Store {
     namespaced = true;
 
     constructor() {
@@ -18,7 +18,7 @@ export class Store {
     };
 
     mutations = {
-        initMessageHandler(state, data) {
+        initMessageHandler(state: any, data: any) {
             ggx.onMessage(
                 LoginResp.ACTION_ID,
                 data => {
@@ -32,10 +32,10 @@ export class Store {
                 LoginResp
             );
         },
-        updateLoading(state, data) {
+        updateLoading(state: any, data: any) {
             state.loading = data;
         },
-        submitLogin(state, data) {
+        submitLogin(state: any, data: any) {
             state.username = data.username;
             state.password = data.password;
             state.loading = true;

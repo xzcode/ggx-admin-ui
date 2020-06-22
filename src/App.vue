@@ -1,6 +1,6 @@
 <template>
     <div id="app-container">
-        <networkstatus />
+        <NetworkStatus />
         <transition name="fade">
             <router-view></router-view>
         </transition>
@@ -8,12 +8,15 @@
 </template>
 
 <script>
-import networkstatus from '@/components/network-status';
-export default {
+import NetworkStatus from '@/components/network-status';
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component({
     components: {
-        networkstatus
+        NetworkStatus
     }
-};
+})
+export default class App extends Vue {}
 </script>
 
 <style>

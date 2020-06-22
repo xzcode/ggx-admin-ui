@@ -4,21 +4,20 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { GGXNetworkEvents } from 'ggx-core-client-ts';
-export default {
-    name: 'network-status',
-    data() {
-        return {
-            reconnectTimes: 0,
-            tagType: 'warning',
-            tagContent: 'connecting'
-        };
-    },
+import { Component, Vue } from 'vue-property-decorator';
+import ggx from '@/net/ggx';
+@Component
+export default class NetworkStatus extends Vue {
+    reconnectTimes = 0;
+    tagType = 'warning';
+    tagContent = 'connecting';
+
     created() {
         this.updateNetworkDelay();
 
-        this.ggx.addEventListener(GGXNetworkEvents.CONNECTION_CLOSE, e => {
+        ggx.addEventListener(GGXNetworkEvents.CONNECTION_CLOSE, e => {
             this.$notify({
                 title: '网络',
                 message: '网络连接失败, 将在 3 秒后重试',
@@ -26,11 +25,11 @@ export default {
                 duration: 3000
             });
             this.updateNetworkDelay();
-            this.ggx.connect();
+            ggx.connect();
             this.reconnectTimes++;
         });
 
-        this.ggx.addEventListener(GGXNetworkEvents.CONNECTION_OPEN, e => {
+        ggx.addEventListener(GGXNetworkEvents.CONNECTION_OPEN, e => {
             if (this.reconnectTimes > 1) {
                 this.$notify({
                     title: '网络',
@@ -42,30 +41,29 @@ export default {
             this.updateNetworkDelay();
         });
 
-        this.ggx.addEventListener(GGXNetworkEvents.NETWORK_DELAY_UPDATE, e => {
-            this.updateNetworkDelay(e.data);
+        ggx.addEventListener(GGXNetworkEvents.NETWORK_DELAY_UPDATE, e => {
+            this.updateNetworkDelay(e?.data);
         });
 
-        this.ggx.connect();
-    },
-    methods: {
-        updateNetworkDelay(delay = 0) {
-            if (this.ggx.connected) {
-                if (delay < 300) {
-                    this.tagType = 'success';
-                } else if (delay < 800) {
-                    this.tagType = 'warning';
-                } else {
-                    this.tagType = 'danger';
-                }
-                this.tagContent = delay + ' ms';
-            } else {
+        ggx.connect();
+    }
+
+    updateNetworkDelay(delay = 0) {
+        if (ggx.connected) {
+            if (delay < 300) {
+                this.tagType = 'success';
+            } else if (delay < 800) {
                 this.tagType = 'warning';
-                this.tagContent = 'connecting';
+            } else {
+                this.tagType = 'danger';
             }
+            this.tagContent = delay + ' ms';
+        } else {
+            this.tagType = 'warning';
+            this.tagContent = 'connecting';
         }
     }
-};
+}
 </script>
 
 <style lang="scss">
@@ -83,5 +81,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0.5;
+    cursor: default;
+}
+.network-status:hover {
+    opacity: 1;
 }
 </style>

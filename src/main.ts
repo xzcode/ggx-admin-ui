@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import app from './app.vue';
+import app from './App.vue';
 import router from './router';
 import store from './store';
-import './plugins/element.js';
+import './plugins/element';
 import ggx from '@/net/ggx';
 
 Vue.config.productionTip = false;

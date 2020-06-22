@@ -69,11 +69,12 @@
     </el-container>
 </template>
 
-<script>
-import menutree from './components/menutree';
-import tabbar from './components/tab-bar';
-import usermenu from './components/user-menu';
+<script lang="ts">
+import menutree from './components/menutree/index.vue';
+import tabbar from './components/tab-bar/index.vue';
+import usermenu from './components/user-menu/index.vue';
 import { createNamespacedHelpers } from 'vuex';
+import { Component, Vue } from 'vue-property-decorator';
 
 const {
     mapState,
@@ -82,34 +83,34 @@ const {
     mapActions
 } = createNamespacedHelpers('main');
 
-export default {
+@Component({
     components: {
-        menutree,
+        menutree: menutree,
         'tab-bar': tabbar,
         'user-menu': usermenu
     },
-    data() {
-        return {};
-    },
+    computed: mapState(['menus', 'tabs', 'leftMenu', 'activeMenu', 'userInfo']),
+    methods: mapMutations([
+        'triggerFullscreen',
+        'menuCollapse',
+        'menuSelect',
+        'initTabs'
+    ])
+})
+export default class Main extends Vue {
+    tabs!: [];
+
     created() {
         this.initTabs();
-    },
-    computed: {
-        ...mapState(['menus', 'tabs', 'leftMenu', 'activeMenu', 'userInfo']),
-        selectedTab() {
-            const filterTabs = this.tabs.filter((e, i) => e.active);
-            return filterTabs.length > 0 && filterTabs[0];
-        }
-    },
-    methods: {
-        ...mapMutations([
-            'triggerFullscreen',
-            'menuCollapse',
-            'menuSelect',
-            'initTabs'
-        ])
     }
-};
+
+    initTabs = () => {};
+
+    get selectedTab() {
+        const filterTabs = this.tabs.filter((e: any, i) => e.active);
+        return filterTabs.length > 0 && filterTabs[0];
+    }
+}
 </script>
 
 <style lang="scss">

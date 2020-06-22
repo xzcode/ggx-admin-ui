@@ -23,6 +23,9 @@ import menutree from './';
 
 export default {
     name: 'menutree',
+    components: {
+        menutree
+    },
     props: ['data'],
     data() {
         return {};
