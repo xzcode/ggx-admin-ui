@@ -1,3 +1,3 @@
 export default {
-    serverUrl: 'ws://localhost:10001/websocket'
+    serverUrl: 'ws://localhost:10010/websocket'
 };

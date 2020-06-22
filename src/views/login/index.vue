@@ -43,31 +43,41 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue, Provide } from 'vue-property-decorator';
 import BgBlocks from '@/components/bg-blocks';
+import { createNamespacedHelpers } from 'vuex';
 
-export default {
-    components: {
-        BgBlocks
-    },
-    mixins: [
-        // localeMixin
-    ],
-    created() {},
+const {
+    mapState,
+    mapMutations,
+    mapGetters,
+    mapActions
+} = createNamespacedHelpers('login');
+
+@Component({
+    'bg-blocks': BgBlocks
+})
+export default class Login extends Vue {
+    mixins = [];
+    created() {}
     data() {
         return {
-            loading: false,
             username: null,
             password: null
         };
-    },
-    computed: {
+    }
+
+    computed = {
+        ...mapState(['loading']),
         yearString() {
             return new Date().getFullYear();
         }
-    },
-    mounted() {},
-    methods: {
+    };
+
+    mounted() {}
+    methods = {
+        ...mapMutations(['submitLogin', 'updateLoading']),
         validateForm() {
             if (!this.username) {
                 this.$message.error('用户名不能为空');
@@ -77,8 +87,11 @@ export default {
                 this.$message.error('密码不能为空');
                 return;
             }
-            this.loading = true;
-            setTimeout(() => {
+            this.submitLogin({
+                username: this.username,
+                password: this.password
+            });
+            /* setTimeout(() => {
                 this.$message.success({
                     message: '登陆成功',
                     duration: 1000,
@@ -87,11 +100,10 @@ export default {
                         this.loading = false;
                     }
                 });
-            }, 1000);
-        },
-        submit() {}
-    }
-};
+            }, 1000); */
+        }
+    };
+}
 </script>
 
 <style scoped lang="scss">
