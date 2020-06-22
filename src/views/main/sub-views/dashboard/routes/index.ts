@@ -2,6 +2,6 @@ export default [
     {
         name: 'dashboard',
         path: 'dashboard',
-        component: () => import('../')
+        component: () => import('../index.vue')
     }
 ];

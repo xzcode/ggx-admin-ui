@@ -2,6 +2,6 @@ export default [
     {
         name: 'system-config',
         path: 'system-config',
-        component: () => import('../')
+        component: () => import('../index.vue')
     }
 ];

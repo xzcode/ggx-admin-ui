@@ -6,7 +6,7 @@ export default {
         prop1: false
     },
     mutations: {
-        updateProp1(state, data) {
+        updateProp1(state: any, data: any) {
             state.prop1 = data;
         }
     },

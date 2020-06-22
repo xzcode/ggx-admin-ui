@@ -46,10 +46,10 @@ const menus = [
     }
 ];
 
-const matchMenu = function(path, menus) {
+const matchMenu = function(path: any, menus: any): any {
     for (let i = 0; i < menus.length; i++) {
         const m = menus[i];
-        if (m.path == path) {
+        if (m.path === path) {
             return m;
         }
         if (m.children) {
@@ -61,7 +61,7 @@ const matchMenu = function(path, menus) {
     }
 };
 
-const makeFullname = function(pMenus, fullnames = []) {
+const makeFullname = function(pMenus: any[], fullnames: any[] = []): any {
     for (let i = 0; i < pMenus.length; i++) {
         const m = pMenus[i];
         m.fullnames = [...fullnames];
@@ -74,7 +74,7 @@ const makeFullname = function(pMenus, fullnames = []) {
 
 makeFullname(menus);
 
-const makeTestTabData = function(num) {
+const makeTestTabData = function(num: number): any {
     const arr = [];
     for (let i = 0; i < num; i++) {
         arr.push({
@@ -87,9 +87,9 @@ const makeTestTabData = function(num) {
     return arr;
 };
 
-const store = {
-    namespaced: true,
-    state: {
+class Store {
+    namespaced = true;
+    state = {
         menus,
         leftMenu: {
             isCollapse: false
@@ -103,12 +103,13 @@ const store = {
             permissions: []
         },
         isFullscreen: false
-    },
-    mutations: {
-        menuCollapse(state) {
+    };
+
+    mutations = {
+        menuCollapse(state: any) {
             state.leftMenu.isCollapse = !state.leftMenu.isCollapse;
         },
-        menuSelect(state, path) {
+        menuSelect(state: any, path: string) {
             const menu = matchMenu(path, state.menus);
             if (!menu) {
                 return;
@@ -116,7 +117,7 @@ const store = {
             state.activeMenu = menu;
             let selectedTab = null;
             for (const tab of state.tabs) {
-                if (tab.path == path) {
+                if (tab.path === path) {
                     selectedTab = tab;
                 } else {
                     tab.active = false;
@@ -127,7 +128,7 @@ const store = {
                 return;
             }
 
-            const closeable = menus[0].path != menu.path;
+            const closeable = menus[0].path !== menu.path;
 
             selectedTab = {
                 name: menu.name,
@@ -139,11 +140,11 @@ const store = {
 
             state.tabs.push({ ...selectedTab });
         },
-        tabRemove(state, path) {
+        tabRemove(state: any, path: any) {
             let index = 0;
 
-            state.tabs.forEach((e, i) => {
-                if (path != e.path) {
+            state.tabs.forEach((e: any, i: any) => {
+                if (path !== e.path) {
                     e.active = false;
                 } else {
                     index = i;
@@ -154,24 +155,24 @@ const store = {
             if (tab) {
                 tab.active = true;
             }
-            router.currentRoute.path != tab.path && router.push(tab.path);
-            this.commit('main/menuSelect', tab.path);
+            router.currentRoute.path !== tab.path && router.push(tab.path);
+            (this as any).commit('main/menuSelect', tab.path);
         },
-        tabClick(state, path) {
-            this.commit('main/menuSelect', path);
-            router.currentRoute.path != path && router.push(path);
+        tabClick(state: any, path: any) {
+            (this as any).commit('main/menuSelect', path);
+            router.currentRoute.path !== path && router.push(path);
         },
-        initMenu(state) {},
-        hasTab(state, tabName) {
+        initMenu(state: any) {},
+        hasTab(state: any, tabName: any) {
             for (const tab of state.tabs) {
-                if (tab.name == tabName) {
+                if (tab.name === tabName) {
                     return tab;
                 }
             }
         },
-        tabRemoveCurrent(state) {
+        tabRemoveCurrent(state: any) {
             let index = 0;
-            state.tabs = state.tabs.filter((e, i) => {
+            state.tabs = state.tabs.filter((e: any, i: any) => {
                 if (e.active) {
                     index = i;
                 }
@@ -179,15 +180,15 @@ const store = {
             });
             const selectedTab = state.tabs[index - 1];
             if (selectedTab) {
-                this.commit('main/menuSelect', selectedTab.path);
-                router.currentRoute.path != selectedTab.path &&
+                (this as any).commit('main/menuSelect', selectedTab.path);
+                router.currentRoute.path !== selectedTab.path &&
                     router.push(selectedTab.path);
             }
         },
-        tabRemoveLeft(state) {
+        tabRemoveLeft(state: any) {
             let index = 0;
-            let currentTab = null;
-            state.tabs.every((e, i) => {
+            let currentTab;
+            state.tabs.every((e: any, i: number) => {
                 if (e.active) {
                     index = i;
                     currentTab = e;
@@ -195,17 +196,17 @@ const store = {
                 }
                 return true;
             });
-            state.tabs = state.tabs.filter((e, i) => {
+            state.tabs = state.tabs.filter((e: any, i: any) => {
                 return i === 0 || i >= index;
             });
-            const path = currentTab.path;
-            this.commit('main/menuSelect', path);
-            router.currentRoute.path != path && router.push(path);
+            const path = (currentTab as any).path;
+            (this as any).commit('main/menuSelect', path);
+            router.currentRoute.path !== path && router.push(path);
         },
-        tabRemoveRight(state) {
+        tabRemoveRight(state: any) {
             let index = 0;
             let currentTab = null;
-            state.tabs.every((e, i) => {
+            state.tabs.every((e: any, i: any) => {
                 if (e.active) {
                     index = i;
                     currentTab = e;
@@ -213,23 +214,25 @@ const store = {
                 }
                 return true;
             });
-            state.tabs = state.tabs.filter((e, i) => {
+            state.tabs = state.tabs.filter((e: any, i: any) => {
                 return i <= index;
             });
-            const path = currentTab.path;
-            this.commit('main/menuSelect', path);
-            router.currentRoute.path != path && router.push(path);
+            const path = (currentTab as any).path;
+            (this as any).commit('main/menuSelect', path);
+            router.currentRoute.path !== path && router.push(path);
         },
-        tabRemoveAll(state) {
+        tabRemoveAll(state: any) {
             state.tabs = [state.tabs[0]];
             const path = state.tabs[0].path;
-            this.commit('main/menuSelect', path);
-            router.currentRoute.path != path && router.push(path);
+            (this as any).commit('main/menuSelect', path);
+            router.currentRoute.path !== path && router.push(path);
         },
 
-        initTabs(state) {
+        initTabs(state: any) {
             const menu = menus[0];
-            const firstTabs = state.tabs.filter(e => e.path == menu.path);
+            const firstTabs = state.tabs.filter(
+                (e: any) => e.path === menu.path
+            );
             if (firstTabs && firstTabs.length > 0) {
                 return;
             }
@@ -237,7 +240,7 @@ const store = {
             const tab = {
                 name: menu.name,
                 path: menu.path,
-                fullnames: menu.fullnames,
+                fullnames: (menu as any).fullnames,
                 closeable: false,
                 active: true
             };
@@ -245,26 +248,26 @@ const store = {
 
             const initPath = router.currentRoute.path;
 
-            if (initPath && initPath != '') {
-                this.commit('main/menuSelect', initPath);
+            if (initPath && initPath !== '') {
+                (this as any).commit('main/menuSelect', initPath);
             }
         },
-        triggerFullscreen(state) {
+        triggerFullscreen(state: any) {
             state.isFullscreen = true;
-            screenfull.toggle();
+            (screenfull as any).toggle();
         }
-    },
-    actions: {
-        testAction(context) {}
-    },
-    getters: {},
-    modules: {
-        dashboard
-    }
-};
+    };
 
-export const mappedComponent = {
-    computed: {}
-};
+    actions = {
+        testAction(context: any) {}
+    };
+
+    getters = {};
+    modules = {
+        dashboard
+    };
+}
+
+const store = new Store();
 
 export default store;
