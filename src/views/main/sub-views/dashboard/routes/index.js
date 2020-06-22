@@ -1,7 +1,7 @@
 export default [
-  {
-    name: "dashboard",
-    path: "dashboard",
-    component: () => import("../")
-  }
+    {
+        name: 'dashboard',
+        path: 'dashboard',
+        component: () => import('../')
+    }
 ];

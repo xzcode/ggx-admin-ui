@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    name: "bg-blocks",
+    name: 'bg-blocks',
     data() {
         return {};
     }

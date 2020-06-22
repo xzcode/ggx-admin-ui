@@ -1,11 +1,11 @@
 <template>
-  <div>dashboard</div>
+    <div>dashboard</div>
 </template>
 
 <script>
 export default {
-  created() {},
-  methods: {}
+    created() {},
+    methods: {}
 };
 </script>
 

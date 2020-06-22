@@ -70,19 +70,23 @@
 </template>
 
 <script>
+import menutree from './components/menutree';
+import tabbar from './components/tab-bar';
+import usermenu from './components/user-menu';
+import { createNamespacedHelpers } from 'vuex';
 
-import menutree from "./components/menutree";
-import tabbar from "./components/tab-bar";
-import usermenu from "./components/user-menu";
-import { createNamespacedHelpers } from "vuex";
-
-const {mapState, mapMutations, mapGetters, mapActions } = createNamespacedHelpers("main");
+const {
+    mapState,
+    mapMutations,
+    mapGetters,
+    mapActions
+} = createNamespacedHelpers('main');
 
 export default {
     components: {
         menutree,
-        "tab-bar": tabbar,
-        "user-menu": usermenu
+        'tab-bar': tabbar,
+        'user-menu': usermenu
     },
     data() {
         return {};
@@ -91,7 +95,7 @@ export default {
         this.initTabs();
     },
     computed: {
-        ...mapState(["menus", "tabs", "leftMenu", "activeMenu", "userInfo"]),
+        ...mapState(['menus', 'tabs', 'leftMenu', 'activeMenu', 'userInfo']),
         selectedTab() {
             const filterTabs = this.tabs.filter((e, i) => e.active);
             return filterTabs.length > 0 && filterTabs[0];
@@ -99,17 +103,17 @@ export default {
     },
     methods: {
         ...mapMutations([
-            "triggerFullscreen",
-            "menuCollapse",
-            "menuSelect",
-            "initTabs"
+            'triggerFullscreen',
+            'menuCollapse',
+            'menuSelect',
+            'initTabs'
         ])
     }
 };
 </script>
 
 <style lang="scss">
-@import "@/css/common.scss";
+@import '@/css/common.scss';
 
 .main-logo {
     color: white;

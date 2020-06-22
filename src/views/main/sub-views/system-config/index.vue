@@ -1,11 +1,11 @@
 <template>
-  <div>system-config</div>
+    <div>system-config</div>
 </template>
 
 <script>
 export default {
-  created() {},
-  methods: {}
+    created() {},
+    methods: {}
 };
 </script>
 

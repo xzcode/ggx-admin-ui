@@ -1,4 +1,4 @@
-import ggx from "@/net/ggx";
+import ggx from '@/net/ggx';
 
 export default {
     namespaced: true,

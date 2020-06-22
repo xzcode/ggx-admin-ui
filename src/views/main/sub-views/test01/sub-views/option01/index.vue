@@ -1,11 +1,11 @@
 <template>
-  <div>option01</div>
+    <div>option01</div>
 </template>
 
 <script>
 export default {
-  created() {},
-  methods: {}
+    created() {},
+    methods: {}
 };
 </script>
 

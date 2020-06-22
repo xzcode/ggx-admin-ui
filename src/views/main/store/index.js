@@ -1,47 +1,47 @@
-import { router } from "@/router";
-import dashboard from "../sub-views/dashboard/store";
-import screenfull from "screenfull";
-import ggx from "@/net/ggx";
+import { router } from '@/router';
+import dashboard from '../sub-views/dashboard/store';
+import screenfull from 'screenfull';
+import ggx from '@/net/ggx';
 
 const menus = [
     {
-        name: "首页",
-        path: "/main/dashboard",
-        icon: "el-icon-odometer",
+        name: '首页',
+        path: '/main/dashboard',
+        icon: 'el-icon-odometer',
         children: null
     },
     {
-        name: "系统管理",
-        path: "/main/system-config",
-        icon: "el-icon-s-tools",
+        name: '系统管理',
+        path: '/main/system-config',
+        icon: 'el-icon-s-tools',
         children: null
     },
     {
-        name: "测试01",
-        path: "/main/test01",
-        icon: "el-icon-s-order",
+        name: '测试01',
+        path: '/main/test01',
+        icon: 'el-icon-s-order',
         children: [
             {
-                name: "选项1",
-                path: "/main/test01/option01",
+                name: '选项1',
+                path: '/main/test01/option01',
                 children: null
             },
             {
-                name: "选项2",
-                path: "/main/test01/option02",
+                name: '选项2',
+                path: '/main/test01/option02',
                 children: null
             },
             {
-                name: "选项2",
-                path: "/main/test01/option02",
+                name: '选项2',
+                path: '/main/test01/option02',
                 children: null
             }
         ]
     },
     {
-        name: "测试02",
-        path: "/main/test02",
-        icon: "el-icon-star-on",
+        name: '测试02',
+        path: '/main/test02',
+        icon: 'el-icon-star-on',
         children: null
     }
 ];
@@ -78,9 +78,9 @@ const makeTestTabData = function(num) {
     const arr = [];
     for (let i = 0; i < num; i++) {
         arr.push({
-            name: "xxxxx",
-            path: "xxxxxxx",
-            fullnames: "xxxxxxx",
+            name: 'xxxxx',
+            path: 'xxxxxxx',
+            fullnames: 'xxxxxxx',
             closeable: true
         });
     }
@@ -97,8 +97,8 @@ const store = {
         activeMenu: menus[0].path,
         tabs: [],
         userInfo: {
-            username: "unknown",
-            avatar: "",
+            username: 'unknown',
+            avatar: '',
             token: null,
             permissions: []
         },
@@ -155,10 +155,10 @@ const store = {
                 tab.active = true;
             }
             router.currentRoute.path != tab.path && router.push(tab.path);
-            this.commit("main/menuSelect", tab.path);
+            this.commit('main/menuSelect', tab.path);
         },
         tabClick(state, path) {
-            this.commit("main/menuSelect", path);
+            this.commit('main/menuSelect', path);
             router.currentRoute.path != path && router.push(path);
         },
         initMenu(state) {},
@@ -179,7 +179,7 @@ const store = {
             });
             const selectedTab = state.tabs[index - 1];
             if (selectedTab) {
-                this.commit("main/menuSelect", selectedTab.path);
+                this.commit('main/menuSelect', selectedTab.path);
                 router.currentRoute.path != selectedTab.path &&
                     router.push(selectedTab.path);
             }
@@ -199,7 +199,7 @@ const store = {
                 return i === 0 || i >= index;
             });
             const path = currentTab.path;
-            this.commit("main/menuSelect", path);
+            this.commit('main/menuSelect', path);
             router.currentRoute.path != path && router.push(path);
         },
         tabRemoveRight(state) {
@@ -217,13 +217,13 @@ const store = {
                 return i <= index;
             });
             const path = currentTab.path;
-            this.commit("main/menuSelect", path);
+            this.commit('main/menuSelect', path);
             router.currentRoute.path != path && router.push(path);
         },
         tabRemoveAll(state) {
             state.tabs = [state.tabs[0]];
             const path = state.tabs[0].path;
-            this.commit("main/menuSelect", path);
+            this.commit('main/menuSelect', path);
             router.currentRoute.path != path && router.push(path);
         },
 
@@ -245,8 +245,8 @@ const store = {
 
             const initPath = router.currentRoute.path;
 
-            if (initPath && initPath != "") {
-                this.commit("main/menuSelect", initPath);
+            if (initPath && initPath != '') {
+                this.commit('main/menuSelect', initPath);
             }
         },
         triggerFullscreen(state) {

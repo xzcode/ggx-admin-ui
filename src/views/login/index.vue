@@ -27,7 +27,7 @@
             <a href="#" style="float: right;">忘记密码</a>
         </el-card>
 
-       <!--  <p class="copyright">
+        <!--  <p class="copyright">
             Copyright
             <i aria-hidden="true" class="fa fa-copyright"></i>
             {{ yearString }} GG Projects 出品
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import BgBlocks from "@/components/bg-blocks";
+import BgBlocks from '@/components/bg-blocks';
 
 export default {
     components: {
@@ -53,9 +53,7 @@ export default {
     mixins: [
         // localeMixin
     ],
-    created() {
-      
-    },
+    created() {},
     data() {
         return {
             loading: false,
@@ -72,20 +70,20 @@ export default {
     methods: {
         validateForm() {
             if (!this.username) {
-                this.$message.error("用户名不能为空");
+                this.$message.error('用户名不能为空');
                 return;
             }
             if (!this.password) {
-                this.$message.error("密码不能为空");
+                this.$message.error('密码不能为空');
                 return;
             }
             this.loading = true;
             setTimeout(() => {
                 this.$message.success({
-                    message: "登陆成功",
+                    message: '登陆成功',
                     duration: 1000,
                     onClose: () => {
-                        this.$router.push("/main");
+                        this.$router.push('/main');
                         this.loading = false;
                     }
                 });
@@ -97,7 +95,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@/css/common.scss";
+@import '@/css/common.scss';
 
 .page-login {
     display: flex;
