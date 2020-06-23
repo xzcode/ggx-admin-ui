@@ -7,13 +7,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
-
-@Component({
+export default {
     name: 'bg-blocks'
-})
-export default class BgBlocks extends Vue {}
+};
 </script>
 
 <style scoped lang="scss">

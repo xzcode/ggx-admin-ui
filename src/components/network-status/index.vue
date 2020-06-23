@@ -6,13 +6,15 @@
 
 <script lang="ts">
 import { GGXNetworkEvents } from 'ggx-core-client-ts';
-import { Component, Vue } from 'vue-property-decorator';
 import ggx from '@/net/ggx';
-@Component
-export default class NetworkStatus extends Vue {
-    reconnectTimes = 0;
-    tagType = 'warning';
-    tagContent = 'connecting';
+export default {
+    data() {
+        return {
+            reconnectTimes: 0,
+            tagType: 'warning',
+            tagContent: 'connecting'
+        };
+    },
 
     created() {
         this.updateNetworkDelay();
@@ -46,24 +48,25 @@ export default class NetworkStatus extends Vue {
         });
 
         ggx.connect();
-    }
-
-    updateNetworkDelay(delay = 0) {
-        if (ggx.connected) {
-            if (delay < 300) {
-                this.tagType = 'success';
-            } else if (delay < 800) {
-                this.tagType = 'warning';
+    },
+    methods: {
+        updateNetworkDelay(delay = 0) {
+            if (ggx.connected) {
+                if (delay < 300) {
+                    this.tagType = 'success';
+                } else if (delay < 800) {
+                    this.tagType = 'warning';
+                } else {
+                    this.tagType = 'danger';
+                }
+                this.tagContent = delay + ' ms';
             } else {
-                this.tagType = 'danger';
+                this.tagType = 'warning';
+                this.tagContent = 'connecting';
             }
-            this.tagContent = delay + ' ms';
-        } else {
-            this.tagType = 'warning';
-            this.tagContent = 'connecting';
         }
     }
-}
+};
 </script>
 
 <style lang="scss">
@@ -71,7 +74,7 @@ export default class NetworkStatus extends Vue {
 .network-status {
     z-index: 9999;
     position: absolute;
-    top: 0;
+    bottom: 0;
     right: 0;
     min-width: 20px;
     min-height: 20px;

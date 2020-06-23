@@ -44,10 +44,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { createNamespacedHelpers } from 'vuex';
 import BgBlock from '@/components/bg-blocks/index.vue';
-import { Component, Provide } from 'vue-property-decorator';
 const {
     mapState,
     mapMutations,
@@ -55,51 +53,41 @@ const {
     mapActions
 } = createNamespacedHelpers('login');
 
-@Component({
-    methods: mapMutations(['submitLogin', 'updateLoading']),
-    computed: mapState(['loading']),
-    mixins: [],
-    components: { BgBlock }
-})
-export default class Login extends Vue {
-    @Provide() username: string = '';
-    @Provide() password: string = '';
-
-    created() {}
-
-    get yearString() {
-        return new Date().getFullYear();
-    }
-
-    mounted() {}
-
-    submitLogin!: (data: any) => {};
-
-    validateForm() {
-        if (!this.username) {
-            this.$message.error('用户名不能为空');
-            return;
+export default {
+    components: {
+        BgBlock
+    },
+    data() {
+        return {
+            username: '',
+            password: ''
+        };
+    },
+    created() {},
+    computed: {
+        ...mapState(['loading']),
+        yearString() {
+            return new Date().getFullYear();
         }
-        if (!this.password) {
-            this.$message.error('密码不能为空');
-            return;
+    },
+    methods: {
+        ...mapMutations(['submitLogin', 'updateLoading']),
+        validateForm() {
+            if (!this.username) {
+                this.$message.error('用户名不能为空');
+                return;
+            }
+            if (!this.password) {
+                this.$message.error('密码不能为空');
+                return;
+            }
+            this.submitLogin({
+                username: this.username,
+                password: this.password
+            });
         }
-        this.submitLogin({
-            username: this.username,
-            password: this.password
-        });
-        /* setTimeout(() => {
-                this.$message.success({
-                    message: '登陆成功',
-                    duration: 1000,
-                    onClose: () => {
-                        this.$router.push('/main');
-                        this.loading = false;
-                    }
-                });
-            }, 1000); */
     }
-}
+};
 </script>
 
 <style scoped lang="scss">

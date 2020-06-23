@@ -44,7 +44,7 @@ const {
 } = createNamespacedHelpers('main');
 
 export default {
-    name: 'user-menu',
+    name: 'UserMenu',
     props: {},
     data() {
         return {};

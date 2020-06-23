@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import menutree from './';
+import menutree from './index.vue';
 
 export default {
     name: 'menutree',

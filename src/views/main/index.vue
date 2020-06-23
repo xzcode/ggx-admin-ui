@@ -15,8 +15,8 @@
             >
                 <div class="main-logo">
                     <transition name="fade">
-                        <div v-if="!leftMenu.isCollapse">GG ADMIN UI</div>
-                        <div v-if="leftMenu.isCollapse">GG</div>
+                        <div v-if="!leftMenu.isCollapse">GGX ADMIN UI</div>
+                        <div v-if="leftMenu.isCollapse">GGX</div>
                     </transition>
                 </div>
 
@@ -47,7 +47,7 @@
                     </transition-group>
                 </el-breadcrumb>
 
-                <user-menu />
+                <usermenu />
 
                 <div class="tool-bar">
                     <el-button @click="triggerFullscreen">
@@ -56,7 +56,7 @@
                 </div>
             </el-header>
 
-            <tab-bar />
+            <tabbar />
 
             <el-main class="main-content">
                 <transition name="fade">
@@ -74,7 +74,6 @@ import menutree from './components/menutree/index.vue';
 import tabbar from './components/tab-bar/index.vue';
 import usermenu from './components/user-menu/index.vue';
 import { createNamespacedHelpers } from 'vuex';
-import { Component, Vue } from 'vue-property-decorator';
 
 const {
     mapState,
@@ -83,34 +82,31 @@ const {
     mapActions
 } = createNamespacedHelpers('main');
 
-@Component({
+export default {
     components: {
-        menutree: menutree,
-        'tab-bar': tabbar,
-        'user-menu': usermenu
+        menutree,
+        tabbar,
+        usermenu
     },
-    computed: mapState(['menus', 'tabs', 'leftMenu', 'activeMenu', 'userInfo']),
-    methods: mapMutations([
-        'triggerFullscreen',
-        'menuCollapse',
-        'menuSelect',
-        'initTabs'
-    ])
-})
-export default class Main extends Vue {
-    tabs!: [];
-
+    computed: {
+        ...mapState(['menus', 'tabs', 'leftMenu', 'activeMenu', 'userInfo']),
+        selectedTab() {
+            const filterTabs = this.tabs.filter((e: any, i) => e.active);
+            return filterTabs.length > 0 && filterTabs[0];
+        }
+    },
+    methods: {
+        ...mapMutations([
+            'triggerFullscreen',
+            'menuCollapse',
+            'menuSelect',
+            'initTabs'
+        ])
+    },
     created() {
         this.initTabs();
     }
-
-    initTabs = () => {};
-
-    get selectedTab() {
-        const filterTabs = this.tabs.filter((e: any, i) => e.active);
-        return filterTabs.length > 0 && filterTabs[0];
-    }
-}
+};
 </script>
 
 <style lang="scss">

@@ -1,4 +1,5 @@
 import { router } from '@/router';
+import rootStore from '@/store';
 import dashboard from '../sub-views/dashboard/store';
 import screenfull from 'screenfull';
 import ggx from '@/net/ggx';
@@ -46,7 +47,7 @@ const menus = [
     }
 ];
 
-const matchMenu = function(path: any, menus: any): any {
+function matchMenu(path: any, menus: any): any {
     for (let i = 0; i < menus.length; i++) {
         const m = menus[i];
         if (m.path === path) {
@@ -59,9 +60,9 @@ const matchMenu = function(path: any, menus: any): any {
             }
         }
     }
-};
+}
 
-const makeFullname = function(pMenus: any[], fullnames: any[] = []): any {
+function makeFullname(pMenus: any[], fullnames: any[] = []): any {
     for (let i = 0; i < pMenus.length; i++) {
         const m = pMenus[i];
         m.fullnames = [...fullnames];
@@ -70,11 +71,11 @@ const makeFullname = function(pMenus: any[], fullnames: any[] = []): any {
             return makeFullname(m.children, [...m.fullnames]);
         }
     }
-};
+}
 
 makeFullname(menus);
 
-const makeTestTabData = function(num: number): any {
+function makeTestTabData(num: number): any {
     const arr = [];
     for (let i = 0; i < num; i++) {
         arr.push({
@@ -85,11 +86,11 @@ const makeTestTabData = function(num: number): any {
         });
     }
     return arr;
-};
+}
 
-class Store {
-    namespaced = true;
-    state = {
+const store = {
+    namespaced: true,
+    state: {
         menus,
         leftMenu: {
             isCollapse: false
@@ -103,9 +104,9 @@ class Store {
             permissions: []
         },
         isFullscreen: false
-    };
+    },
 
-    mutations = {
+    mutations: {
         menuCollapse(state: any) {
             state.leftMenu.isCollapse = !state.leftMenu.isCollapse;
         },
@@ -156,10 +157,10 @@ class Store {
                 tab.active = true;
             }
             router.currentRoute.path !== tab.path && router.push(tab.path);
-            (this as any).commit('main/menuSelect', tab.path);
+            rootStore.commit('main/menuSelect', tab.path);
         },
         tabClick(state: any, path: any) {
-            (this as any).commit('main/menuSelect', path);
+            rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
         initMenu(state: any) {},
@@ -180,7 +181,7 @@ class Store {
             });
             const selectedTab = state.tabs[index - 1];
             if (selectedTab) {
-                (this as any).commit('main/menuSelect', selectedTab.path);
+                rootStore.commit('main/menuSelect', selectedTab.path);
                 router.currentRoute.path !== selectedTab.path &&
                     router.push(selectedTab.path);
             }
@@ -200,7 +201,7 @@ class Store {
                 return i === 0 || i >= index;
             });
             const path = (currentTab as any).path;
-            (this as any).commit('main/menuSelect', path);
+            rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
         tabRemoveRight(state: any) {
@@ -218,13 +219,13 @@ class Store {
                 return i <= index;
             });
             const path = (currentTab as any).path;
-            (this as any).commit('main/menuSelect', path);
+            rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
         tabRemoveAll(state: any) {
             state.tabs = [state.tabs[0]];
             const path = state.tabs[0].path;
-            (this as any).commit('main/menuSelect', path);
+            rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
 
@@ -249,25 +250,27 @@ class Store {
             const initPath = router.currentRoute.path;
 
             if (initPath && initPath !== '') {
-                (this as any).commit('main/menuSelect', initPath);
+                rootStore.commit('main/menuSelect', initPath);
             }
         },
         triggerFullscreen(state: any) {
             state.isFullscreen = true;
             (screenfull as any).toggle();
         }
-    };
+    },
 
-    actions = {
+    actions: {
         testAction(context: any) {}
-    };
+    },
 
-    getters = {};
-    modules = {
+    getters: {},
+    modules: {
         dashboard
-    };
-}
+    }
+};
 
-const store = new Store();
+(function initMessageHandler() {
+    
+})();
 
 export default store;

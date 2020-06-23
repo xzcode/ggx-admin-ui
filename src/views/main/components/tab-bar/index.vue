@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import tab from './component/tab';
+import tab from './component/tab/index.vue';
 import { createNamespacedHelpers } from 'vuex';
 const {
     mapState,
@@ -73,7 +73,7 @@ const {
 } = createNamespacedHelpers('main');
 
 export default {
-    name: 'tab-bar',
+    name: 'tabbar',
     components: {
         tab
     },

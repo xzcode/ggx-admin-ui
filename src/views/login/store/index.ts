@@ -3,35 +3,15 @@ import LoginReq from '@/message/login/LoginReq';
 import LoginResp from '@/message/login/LoginResp';
 import router from '@/router';
 
-class Store {
-    namespaced = true;
-
-    constructor() {
-        this.mutations.initMessageHandler(this.state, this);
-    }
-
-    state = {
+const store = {
+    namespaced: true,
+    state: {
         loading: false,
         username: null,
         password: null,
         logined: false
-    };
-
-    mutations = {
-        initMessageHandler(state: any, data: any) {
-            ggx.onMessage(
-                LoginResp.ACTION_ID,
-                data => {
-                    console.log(data);
-                    if (data.success) {
-                        state.logined = true;
-                        router.push('main');
-                    }
-                    state.loading = false;
-                },
-                LoginResp
-            );
-        },
+    },
+    mutations: {
         updateLoading(state: any, data: any) {
             state.loading = data;
         },
@@ -48,7 +28,22 @@ class Store {
                 })
             );
         }
-    };
-}
+    }
+};
 
-export default new Store();
+(function initMessageHandler() {
+    ggx.onMessage(
+        LoginResp.ACTION_ID,
+        data => {
+            console.log(data);
+            if (data.success) {
+                store.state.logined = true;
+                router.push('main');
+            }
+            store.state.loading = false;
+        },
+        LoginResp
+    );
+})();
+
+export default store;
