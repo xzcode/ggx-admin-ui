@@ -34,22 +34,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.el-menu--collapse > .el-menu-item span,
-.el-menu--collapse .el-submenu .el-submenu__title span {
-    height: 0;
-    width: 0;
-    overflow: hidden;
-    visibility: hidden;
-    display: inline-block;
-}
-.el-menu--collapse > .el-menu-item .el-submenu__icon-arrow,
-.el-menu--collapse .el-submenu .el-submenu__title .el-submenu__icon-arrow {
-    display: none;
-}
-
-.el-menu--collapse .el-submenu [class^='el-icon-'],
-.el-menu--collapse .el-menu-item [class^='el-icon-'] {
-    font-size: 28px;
-}
-</style>
+<style lang="scss"></style>

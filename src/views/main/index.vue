@@ -9,15 +9,12 @@
                 text-color="#ffffff"
                 active-text-color="#409EFF"
                 :class="[leftMenu.isCollapse ? 'collapsed' : '']"
-                :collapse-transition="false"
+                :collapse-transition="true"
                 @select="menuSelect"
                 :default-active="activeMenu.path"
             >
-                <div class="main-logo">
-                    <transition name="fade">
-                        <div v-if="!leftMenu.isCollapse">GGX ADMIN UI</div>
-                        <div v-if="leftMenu.isCollapse">GGX</div>
-                    </transition>
+                <div class="main-logo" v-if="!leftMenu.isCollapse">
+                    <div style="min-width: 200px;">GGX ADMIN UI</div>
                 </div>
 
                 <menutree :data="menus" />
@@ -120,6 +117,7 @@ export default {
     align-items: center;
     padding: 10px;
     height: 60px;
+    overflow: hidden;
 }
 
 .main-container {
@@ -159,11 +157,7 @@ export default {
         }
 
         .left-menu:not(.el-menu--collapse) {
-            width: 260px;
-        }
-
-        .collapsed {
-            width: fit-content;
+            width: 200px;
         }
     }
 
