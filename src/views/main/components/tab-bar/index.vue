@@ -1,11 +1,9 @@
 <template>
     <div class="tab-bar">
         <div class="tab-bar-container">
-            <!--
-      <div class="prev-tab">
-        <i class="el-icon-caret-left"></i>
-      </div>
-      -->
+            <div class="prev-tab" @click="tabbarScrollLeft">
+                <i class="el-icon-arrow-left"></i>
+            </div>
             <transition-group
                 name="fade"
                 class="tab-container"
@@ -17,47 +15,46 @@
                     <tab :key="item.path" :data="item" />
                 </template>
             </transition-group>
-
-            <!--
-      <div class="next-tab">
-        <i class="el-icon-caret-right"></i>
-      </div>
-      -->
-            <el-dropdown
-                class="options"
-                placement="bottom-start"
-                type="button"
-                @command="tabMenuCommand"
-                trigger="click"
-            >
-                <i class="el-icon-caret-bottom"></i>
-                <el-dropdown-menu slot="dropdown" class="menu">
-                    <el-dropdown-item
-                        command="close-current"
-                        class="menu-item"
-                        icon="el-icon-error"
-                        >关闭当前</el-dropdown-item
-                    >
-                    <el-dropdown-item
-                        command="close-left"
-                        class="menu-item"
-                        icon="el-icon-caret-left"
-                        >关闭左侧</el-dropdown-item
-                    >
-                    <el-dropdown-item
-                        command="close-right"
-                        class="menu-item"
-                        icon="el-icon-caret-right"
-                        >关闭右侧</el-dropdown-item
-                    >
-                    <el-dropdown-item
-                        command="close-all"
-                        class="menu-item"
-                        icon="el-icon-info"
-                        >关闭所有</el-dropdown-item
-                    >
-                </el-dropdown-menu>
-            </el-dropdown>
+            <div class="next-tab" @click="tabbarScrollRight">
+                <i class="el-icon-arrow-right"></i>
+            </div>
+            <div class="options-container">
+                <el-dropdown
+                    class="options"
+                    placement="bottom-start"
+                    type="button"
+                    @command="tabMenuCommand"
+                    trigger="click"
+                >
+                    <i class="el-icon-caret-bottom"></i>
+                    <el-dropdown-menu slot="dropdown" class="menu">
+                        <el-dropdown-item
+                            command="close-current"
+                            class="menu-item"
+                            icon="el-icon-error"
+                            >关闭当前</el-dropdown-item
+                        >
+                        <el-dropdown-item
+                            command="close-left"
+                            class="menu-item"
+                            icon="el-icon-caret-left"
+                            >关闭左侧</el-dropdown-item
+                        >
+                        <el-dropdown-item
+                            command="close-right"
+                            class="menu-item"
+                            icon="el-icon-caret-right"
+                            >关闭右侧</el-dropdown-item
+                        >
+                        <el-dropdown-item
+                            command="close-all"
+                            class="menu-item"
+                            icon="el-icon-info"
+                            >关闭所有</el-dropdown-item
+                        >
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
         </div>
     </div>
 </template>
@@ -128,6 +125,16 @@ export default {
                 default:
                     break;
             }
+        },
+        tabbarScrollLeft() {
+            const _this = this.$refs.tabContainer.$el;
+            var step = 30;
+            _this.scrollLeft -= step;
+        },
+        tabbarScrollRight() {
+            const _this = this.$refs.tabContainer.$el;
+            var step = 30;
+            _this.scrollLeft += step;
         }
     }
 };
@@ -142,20 +149,23 @@ $tab-bar-height: 38px;
     height: $tab-bar-height;
     width: 100%;
     background-color: #ffffff;
-    border-bottom: 1px solid #b7b7b7;
+    /* border-bottom: 1px solid #b7b7b7; */
     margin-bottom: 5px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.22), 0 0 2px 0 rgba(0, 0, 0, 0);
+    /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.22), 0 0 2px 0 rgba(0, 0, 0, 0); */
     /*  border: 1px solid #dcdfe6;
   border-left: none;
   border-right: none;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04); */
 
     .tab-bar-container {
-        padding-right: 40px;
         position: relative;
+        display: flex;
     }
 
     .tab-container {
+        flex-grow: 80;
+        background: #f0f0f0;
+        box-shadow: inset 0 0 3px 2px hsla(0, 0%, 39.2%, 0.1);
         &::-webkit-scrollbar-track {
             /* 定义滚动条轨道  内阴影+圆角*/
             border-radius: 5px;
@@ -197,16 +207,21 @@ $tab-bar-height: 38px;
     .prev-tab,
     .next-tab {
         font-size: 28px;
-        min-width: 30px;
+        width: 30px;
+        background: #fff;
+        border: 0.1px solid #eee;
+        font-size: 18px;
     }
-
+    .options-container {
+        width: 34px;
+        height: 100%;
+    }
     .options {
         width: 34px;
         height: 34px;
         font-size: 16px;
-        position: absolute;
-        right: 0px;
-        top: 0px;
+        background: #fff;
+        border-top: 0.1px solid #eee;
 
         .menu-item {
             min-width: 120px;

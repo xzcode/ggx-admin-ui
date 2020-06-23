@@ -12,11 +12,18 @@ const menus = [
         children: null
     },
     {
+        name: '注册中心',
+        path: '/main/registry',
+        icon: 'el-icon-view',
+        children: null
+    },
+    {
         name: '系统管理',
         path: '/main/system-config',
         icon: 'el-icon-s-tools',
         children: null
     },
+    /* 
     {
         name: '测试01',
         path: '/main/test01',
@@ -33,8 +40,8 @@ const menus = [
                 children: null
             },
             {
-                name: '选项2',
-                path: '/main/test01/option02',
+                name: '选项3',
+                path: '/main/test01/option03',
                 children: null
             }
         ]
@@ -45,6 +52,7 @@ const menus = [
         icon: 'el-icon-star-on',
         children: null
     }
+ */
 ];
 
 function matchMenu(path: any, menus: any): any {
@@ -173,12 +181,16 @@ const store = {
         },
         tabRemoveCurrent(state: any) {
             let index = 0;
+            if (state.tabs.length === 1) {
+                return;
+            }
             state.tabs = state.tabs.filter((e: any, i: any) => {
                 if (e.active) {
                     index = i;
                 }
                 return !e.active;
             });
+
             const selectedTab = state.tabs[index - 1];
             if (selectedTab) {
                 rootStore.commit('main/menuSelect', selectedTab.path);
@@ -269,8 +281,6 @@ const store = {
     }
 };
 
-(function initMessageHandler() {
-    
-})();
+(function initMessageHandler() {})();
 
 export default store;

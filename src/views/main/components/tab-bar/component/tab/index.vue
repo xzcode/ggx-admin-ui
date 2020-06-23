@@ -1,5 +1,6 @@
 <template>
-    <div class="tab" :id="data.path" :class="data.active ? 'active' : ''">
+    <div class="tab" :id="data.path">
+        <span class="active-point" :class="data.active ? 'active' : ''"></span>
         <span @click="tabClick(data.path)" class="content">{{
             data.name
         }}</span>
@@ -61,22 +62,41 @@ $tab-bar-height: 38px;
     flex: none;
     height: $tab-bar-height - 10px;
     width: fit-content;
-    min-width: 60px;
+    min-width: 50px;
     background-color: #fff;
 
-    border: 1px solid #dcdfe6;
+    border: none;
+    border-radius: 5px;
+
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
-    margin: 4px 4px;
+    margin: 5px 5px;
     position: relative;
 
-    padding: 0px 18px;
+    padding: 0px 10px;
+    padding-left: 20px;
     color: rgb(143, 143, 143);
+
 
     &:hover,
     &.active {
         color: $color-primary;
         background-color: #fff;
         /*  border: 1px solid $color-primary; */
+    }
+
+    .active-point {
+        width: 10px;
+        height: 10px;
+        border-radius: 100px;
+        background: #ccc;
+        position: absolute;
+        left: 9px;
+        top: 9px;
+
+    }
+
+    .active-point.active {
+        background: $color-primary;
     }
 
     .content {

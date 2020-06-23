@@ -10,8 +10,8 @@ export default [
         component: () => import('@/views/main/index.vue'),
         children: [
             ...require('../sub-views/dashboard/routes').default,
+            ...require('../sub-views/registry/routes').default,
             ...require('../sub-views/system-config/routes').default,
-            ...require('../sub-views/test01/routes').default
         ]
     }
 ];

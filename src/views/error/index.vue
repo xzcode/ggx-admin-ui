@@ -4,7 +4,7 @@
 
 <script lang="ts">
 export default {
-    name: 'boot',
+    name: 'error',
     props: {},
     data() {
         return {};
