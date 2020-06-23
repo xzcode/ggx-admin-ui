@@ -72,8 +72,8 @@ $tab-bar-height: 38px;
     margin: 5px 5px;
     position: relative;
 
-    padding: 0px 10px;
-    padding-left: 20px;
+    padding: 0px 12px;
+    padding-left: 24px;
     color: rgb(143, 143, 143);
 
 
