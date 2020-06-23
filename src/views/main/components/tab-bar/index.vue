@@ -18,43 +18,41 @@
             <div class="next-tab" @click="tabbarScrollRight">
                 <i class="el-icon-arrow-right"></i>
             </div>
-            <div class="options-container">
-                <el-dropdown
-                    class="options"
-                    placement="bottom-start"
-                    type="button"
-                    @command="tabMenuCommand"
-                    trigger="click"
-                >
-                    <i class="el-icon-caret-bottom"></i>
-                    <el-dropdown-menu slot="dropdown" class="menu">
-                        <el-dropdown-item
-                            command="close-current"
-                            class="menu-item"
-                            icon="el-icon-error"
-                            >关闭当前</el-dropdown-item
-                        >
-                        <el-dropdown-item
-                            command="close-left"
-                            class="menu-item"
-                            icon="el-icon-caret-left"
-                            >关闭左侧</el-dropdown-item
-                        >
-                        <el-dropdown-item
-                            command="close-right"
-                            class="menu-item"
-                            icon="el-icon-caret-right"
-                            >关闭右侧</el-dropdown-item
-                        >
-                        <el-dropdown-item
-                            command="close-all"
-                            class="menu-item"
-                            icon="el-icon-info"
-                            >关闭所有</el-dropdown-item
-                        >
-                    </el-dropdown-menu>
-                </el-dropdown>
-            </div>
+            <el-dropdown
+                class="options"
+                placement="bottom-start"
+                type="button"
+                @command="tabMenuCommand"
+                trigger="click"
+            >
+                <i class="el-icon-caret-bottom"></i>
+                <el-dropdown-menu slot="dropdown" class="menu">
+                    <el-dropdown-item
+                        command="close-current"
+                        class="menu-item"
+                        icon="el-icon-error"
+                        >关闭当前</el-dropdown-item
+                    >
+                    <el-dropdown-item
+                        command="close-left"
+                        class="menu-item"
+                        icon="el-icon-caret-left"
+                        >关闭左侧</el-dropdown-item
+                    >
+                    <el-dropdown-item
+                        command="close-right"
+                        class="menu-item"
+                        icon="el-icon-caret-right"
+                        >关闭右侧</el-dropdown-item
+                    >
+                    <el-dropdown-item
+                        command="close-all"
+                        class="menu-item"
+                        icon="el-icon-info"
+                        >关闭所有</el-dropdown-item
+                    >
+                </el-dropdown-menu>
+            </el-dropdown>
         </div>
     </div>
 </template>
@@ -164,6 +162,10 @@ $tab-bar-height: 38px;
 
     .tab-container {
         flex-grow: 80;
+        overflow-y: hidden;
+        overflow-x: scroll;
+        height: $tab-bar-height;
+        display: flex;
         background: #f0f0f0;
         box-shadow: inset 0 0 3px 2px hsla(0, 0%, 39.2%, 0.1);
         &::-webkit-scrollbar-track {
@@ -181,7 +183,7 @@ $tab-bar-height: 38px;
         }
 
         &::-webkit-scrollbar:hover {
-            background-color: $color-info;
+            background-color: $color-primary;
         }
 
         &::-webkit-scrollbar-thumb {
@@ -191,7 +193,7 @@ $tab-bar-height: 38px;
         }
 
         &:hover::-webkit-scrollbar-thumb {
-            background-color: $color-info;
+            background-color: $color-primary;
         }
     }
 
@@ -211,12 +213,10 @@ $tab-bar-height: 38px;
         background: #fff;
         border: 0.1px solid #eee;
         font-size: 18px;
-    }
-    .options-container {
-        width: 34px;
-        height: 100%;
+        flex: none;
     }
     .options {
+        flex: none;
         width: 34px;
         height: 34px;
         font-size: 16px;
@@ -232,13 +232,6 @@ $tab-bar-height: 38px;
     .options:hover {
         color: $color-primary;
         cursor: pointer;
-    }
-
-    .tab-container {
-        height: $tab-bar-height;
-        display: flex;
-        overflow-x: auto;
-        overflow-y: hidden;
     }
 }
 </style>
