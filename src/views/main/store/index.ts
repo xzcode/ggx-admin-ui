@@ -1,6 +1,7 @@
 import { router } from '@/router';
 import rootStore from '@/store';
 import dashboard from '../sub-views/dashboard/store';
+import registry from '../sub-views/registry/store';
 import screenfull from 'screenfull';
 import ggx from '@/net/ggx';
 
@@ -82,19 +83,6 @@ function makeFullname(pMenus: any[], fullnames: any[] = []): any {
 }
 
 makeFullname(menus);
-
-function makeTestTabData(num: number): any {
-    const arr = [];
-    for (let i = 0; i < num; i++) {
-        arr.push({
-            name: 'xxxxx',
-            path: 'xxxxxxx',
-            fullnames: 'xxxxxxx',
-            closeable: true
-        });
-    }
-    return arr;
-}
 
 const store = {
     namespaced: true,
@@ -277,7 +265,8 @@ const store = {
 
     getters: {},
     modules: {
-        dashboard
+        dashboard,
+        registry
     }
 };
 

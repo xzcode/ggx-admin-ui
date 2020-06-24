@@ -1,9 +1,10 @@
 import ggx from '@/net/ggx';
+import RegistryDataResp from '@/message/registry/RegistryDataResp';
 
-export default {
+const store = {
     namespaced: true,
     state: {
-        prop1: false
+        registryData: []
     },
     mutations: {
         updateProp1(state: any, data: any) {
@@ -13,3 +14,13 @@ export default {
     actions: {},
     getters: {}
 };
+(function initMessageHandler() {
+    ggx.onMessage(
+        RegistryDataResp.ACTION_ID,
+        data => {
+            store.state.registryData = data;
+        },
+        RegistryDataResp
+    );
+})();
+export default store;

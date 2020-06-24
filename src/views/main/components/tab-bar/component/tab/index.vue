@@ -76,7 +76,6 @@ $tab-bar-height: 38px;
     padding-left: 24px;
     color: rgb(143, 143, 143);
 
-
     &:hover,
     &.active {
         color: $color-primary;
@@ -92,7 +91,6 @@ $tab-bar-height: 38px;
         position: absolute;
         left: 9px;
         top: 9px;
-
     }
 
     .active-point.active {
