@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 import './plugins/element';
 import ggx from '@/net/ggx';
+console.log(ggx)
 
 Vue.config.productionTip = false;
 Vue.prototype.ggx = ggx;

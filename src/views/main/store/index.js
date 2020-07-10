@@ -56,7 +56,7 @@ const menus = [
  */
 ];
 
-function matchMenu(path: any, menus: any): any {
+function matchMenu(path, menus) {
     for (let i = 0; i < menus.length; i++) {
         const m = menus[i];
         if (m.path === path) {
@@ -71,7 +71,7 @@ function matchMenu(path: any, menus: any): any {
     }
 }
 
-function makeFullname(pMenus: any[], fullnames: any[] = []): any {
+function makeFullname(pMenus = [], fullnames = []) {
     for (let i = 0; i < pMenus.length; i++) {
         const m = pMenus[i];
         m.fullnames = [...fullnames];
@@ -103,10 +103,10 @@ const store = {
     },
 
     mutations: {
-        menuCollapse(state: any) {
+        menuCollapse(state) {
             state.leftMenu.isCollapse = !state.leftMenu.isCollapse;
         },
-        menuSelect(state: any, path: string) {
+        menuSelect(state, path) {
             const menu = matchMenu(path, state.menus);
             if (!menu) {
                 return;
@@ -137,10 +137,10 @@ const store = {
 
             state.tabs.push({ ...selectedTab });
         },
-        tabRemove(state: any, path: any) {
+        tabRemove(state, path) {
             let index = 0;
 
-            state.tabs.forEach((e: any, i: any) => {
+            state.tabs.forEach((e, i) => {
                 if (path !== e.path) {
                     e.active = false;
                 } else {
@@ -155,24 +155,24 @@ const store = {
             router.currentRoute.path !== tab.path && router.push(tab.path);
             rootStore.commit('main/menuSelect', tab.path);
         },
-        tabClick(state: any, path: any) {
+        tabClick(state, path) {
             rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
-        initMenu(state: any) {},
-        hasTab(state: any, tabName: any) {
+        initMenu(state) {},
+        hasTab(state, tabName) {
             for (const tab of state.tabs) {
                 if (tab.name === tabName) {
                     return tab;
                 }
             }
         },
-        tabRemoveCurrent(state: any) {
+        tabRemoveCurrent(state) {
             let index = 0;
             if (state.tabs.length === 1) {
                 return;
             }
-            state.tabs = state.tabs.filter((e: any, i: any) => {
+            state.tabs = state.tabs.filter((e, i) => {
                 if (e.active) {
                     index = i;
                 }
@@ -186,10 +186,10 @@ const store = {
                     router.push(selectedTab.path);
             }
         },
-        tabRemoveLeft(state: any) {
+        tabRemoveLeft(state) {
             let index = 0;
             let currentTab;
-            state.tabs.every((e: any, i: number) => {
+            state.tabs.every((e, i) => {
                 if (e.active) {
                     index = i;
                     currentTab = e;
@@ -197,17 +197,17 @@ const store = {
                 }
                 return true;
             });
-            state.tabs = state.tabs.filter((e: any, i: any) => {
+            state.tabs = state.tabs.filter((e, i) => {
                 return i === 0 || i >= index;
             });
-            const path = (currentTab as any).path;
+            const path = (currentTab).path;
             rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
-        tabRemoveRight(state: any) {
+        tabRemoveRight(state) {
             let index = 0;
             let currentTab = null;
-            state.tabs.every((e: any, i: any) => {
+            state.tabs.every((e, i) => {
                 if (e.active) {
                     index = i;
                     currentTab = e;
@@ -215,24 +215,24 @@ const store = {
                 }
                 return true;
             });
-            state.tabs = state.tabs.filter((e: any, i: any) => {
+            state.tabs = state.tabs.filter((e, i) => {
                 return i <= index;
             });
-            const path = (currentTab as any).path;
+            const path = (currentTab).path;
             rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
-        tabRemoveAll(state: any) {
+        tabRemoveAll(state) {
             state.tabs = [state.tabs[0]];
             const path = state.tabs[0].path;
             rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
 
-        initTabs(state: any) {
+        initTabs(state) {
             const menu = menus[0];
             const firstTabs = state.tabs.filter(
-                (e: any) => e.path === menu.path
+                (e) => e.path === menu.path
             );
             if (firstTabs && firstTabs.length > 0) {
                 return;
@@ -241,7 +241,7 @@ const store = {
             const tab = {
                 name: menu.name,
                 path: menu.path,
-                fullnames: (menu as any).fullnames,
+                fullnames: (menu).fullnames,
                 closeable: false,
                 active: true
             };
@@ -253,14 +253,14 @@ const store = {
                 rootStore.commit('main/menuSelect', initPath);
             }
         },
-        triggerFullscreen(state: any) {
+        triggerFullscreen(state) {
             state.isFullscreen = true;
-            (screenfull as any).toggle();
+            (screenfull).toggle();
         }
     },
 
     actions: {
-        testAction(context: any) {}
+        testAction(context) {}
     },
 
     getters: {},

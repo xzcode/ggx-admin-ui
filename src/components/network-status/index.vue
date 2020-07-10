@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import { GGXNetworkEvents } from 'ggx-core-client-ts';
 import ggx from '@/net/ggx';
 export default {

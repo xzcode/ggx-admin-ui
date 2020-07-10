@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css';
 
 import mainRoutes from '@/views/main/routes';
 import loginRoutes from '@/views/login/routes';
+import store from '@/store';
 
 Vue.use(VueRouter);
 
@@ -26,10 +27,9 @@ export const router = new VueRouter({
 
 // 路由前置过滤
 router.beforeEach((to, from, next) => {
-    // console.log(to, from , next, "store---->",store)
-
     // 使用加载进度条工具
     NProgress.start();
+
     // 继续路由
     next();
 });

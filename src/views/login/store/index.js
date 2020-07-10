@@ -2,6 +2,7 @@ import ggx from '@/net/ggx';
 import LoginReq from '@/message/login/LoginReq';
 import LoginResp from '@/message/login/LoginResp';
 import router from '@/router';
+import rootStore from '@/store';
 
 const store = {
     namespaced: true,
@@ -12,10 +13,10 @@ const store = {
         logined: false
     },
     mutations: {
-        updateLoading(state: any, data: any) {
+        updateLoading(state, data) {
             state.loading = data;
         },
-        submitLogin(state: any, data: any) {
+        submitLogin(state, data) {
             state.username = data.username;
             state.password = data.password;
             state.loading = true;

@@ -66,7 +66,7 @@
     </el-container>
 </template>
 
-<script lang="ts">
+<script>
 import menutree from './components/menutree/index.vue';
 import tabbar from './components/tab-bar/index.vue';
 import usermenu from './components/user-menu/index.vue';
@@ -88,7 +88,7 @@ export default {
     computed: {
         ...mapState(['menus', 'tabs', 'leftMenu', 'activeMenu', 'userInfo']),
         selectedTab() {
-            const filterTabs = this.tabs.filter((e: any, i) => e.active);
+            const filterTabs = this.tabs.filter((e, i) => e.active);
             return filterTabs.length > 0 && filterTabs[0];
         }
     },

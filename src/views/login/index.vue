@@ -43,7 +43,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import { createNamespacedHelpers } from 'vuex';
 import BgBlock from '@/components/bg-blocks/index.vue';
 const {

@@ -11,7 +11,7 @@ export default [
         children: [
             ...require('../sub-views/dashboard/routes').default,
             ...require('../sub-views/registry/routes').default,
-            ...require('../sub-views/system-config/routes').default,
+            ...require('../sub-views/system-config/routes').default
         ]
     }
 ];

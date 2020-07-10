@@ -2,7 +2,16 @@
     <div></div>
 </template>
 
-<script lang="ts">
+<script>
+import { createNamespacedHelpers } from 'vuex';
+
+const {
+    mapState,
+    mapMutations,
+    mapGetters,
+    mapActions
+} = createNamespacedHelpers('main');
+
 export default {
     name: 'boot',
     props: {},
@@ -12,7 +21,7 @@ export default {
     methods: {},
     beforeCreate() {},
     created() {},
-    mounted: {},
+    mounted() {},
     beforeUpdate() {},
     updated() {},
     beforeDestroy() {},
@@ -20,4 +29,6 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import '@/css/common.scss';
+</style>

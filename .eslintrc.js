@@ -7,9 +7,7 @@ module.exports = {
 
     extends: ['plugin:vue/essential', '@vue/standard'],
 
-    parserOptions: {
-        parser: '@typescript-eslint/parser'
-    },
+  
 
     rules: {
         'no-console': 'off',
@@ -30,6 +28,5 @@ module.exports = {
         '@vue/standard',
         'eslint:recommended',
         '@vue/prettier',
-        '@vue/typescript'
     ]
 };
