@@ -1,7 +1,7 @@
 import ggx from '@/net/ggx';
 import rootStore from '@/store';
-import GetServicesResp from '@/message/registry/GetServicesResp';
-import GetServicesReq from '@/message/registry/GetServicesReq';
+import GetRegistryInfoResp from '@/message/registry/GetRegistryInfoResp';
+import GetRegistryInfoReq from '@/message/registry/GetRegistryInfoReq';
 
 const store = {
     namespaced: true,
@@ -18,14 +18,7 @@ const store = {
 };
 (function initMessageHandler() {
     setInterval(() => {
-        ggx.send(GetServicesReq.ACTION_ID);
+        ggx.send(GetRegistryInfoReq.create());
     }, 5000);
-    ggx.onMessage(
-        GetServicesResp.ACTION_ID,
-        data => {
-            rootStore.commit('main/registry/updateServices', data.services);
-        },
-        GetServicesResp
-    );
 })();
 export default store;

@@ -9,14 +9,12 @@
 
 <script>
 import NetworkStatus from '@/components/network-status';
-import { Component, Vue } from 'vue-property-decorator';
 
-@Component({
+export default {
     components: {
         NetworkStatus
     }
-})
-export default class App extends Vue {}
+};
 </script>
 
 <style>

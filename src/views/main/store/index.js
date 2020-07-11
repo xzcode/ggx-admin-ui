@@ -23,7 +23,7 @@ const menus = [
         path: '/main/system-config',
         icon: 'el-icon-s-tools',
         children: null
-    },
+    }
     /* 
     {
         name: '测试01',
@@ -93,12 +93,6 @@ const store = {
         },
         activeMenu: menus[0].path,
         tabs: [],
-        userInfo: {
-            username: 'unknown',
-            avatar: '',
-            token: null,
-            permissions: []
-        },
         isFullscreen: false
     },
 
@@ -200,7 +194,7 @@ const store = {
             state.tabs = state.tabs.filter((e, i) => {
                 return i === 0 || i >= index;
             });
-            const path = (currentTab).path;
+            const path = currentTab.path;
             rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
@@ -218,7 +212,7 @@ const store = {
             state.tabs = state.tabs.filter((e, i) => {
                 return i <= index;
             });
-            const path = (currentTab).path;
+            const path = currentTab.path;
             rootStore.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
@@ -231,9 +225,7 @@ const store = {
 
         initTabs(state) {
             const menu = menus[0];
-            const firstTabs = state.tabs.filter(
-                (e) => e.path === menu.path
-            );
+            const firstTabs = state.tabs.filter(e => e.path === menu.path);
             if (firstTabs && firstTabs.length > 0) {
                 return;
             }
@@ -241,7 +233,7 @@ const store = {
             const tab = {
                 name: menu.name,
                 path: menu.path,
-                fullnames: (menu).fullnames,
+                fullnames: menu.fullnames,
                 closeable: false,
                 active: true
             };
@@ -255,7 +247,7 @@ const store = {
         },
         triggerFullscreen(state) {
             state.isFullscreen = true;
-            (screenfull).toggle();
+            screenfull.toggle();
         }
     },
 
@@ -269,7 +261,5 @@ const store = {
         registry
     }
 };
-
-(function initMessageHandler() {})();
 
 export default store;

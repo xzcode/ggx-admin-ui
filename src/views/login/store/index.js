@@ -3,6 +3,7 @@ import LoginReq from '@/message/login/LoginReq';
 import LoginResp from '@/message/login/LoginResp';
 import router from '@/router';
 import rootStore from '@/store';
+import net from '../net';
 
 const store = {
     namespaced: true,
@@ -21,30 +22,12 @@ const store = {
             state.password = data.password;
             state.loading = true;
 
-            ggx.send(
-                LoginReq.ACTION_ID,
-                LoginReq.create({
-                    username: state.username,
-                    password: state.password
-                })
-            );
+            net.sendLoginReq({
+                username: data.username,
+                password: data.password
+            });
         }
     }
 };
-
-(function initMessageHandler() {
-    ggx.onMessage(
-        LoginResp.ACTION_ID,
-        data => {
-            console.log(data);
-            if (data.success) {
-                store.state.logined = true;
-                router.push('main');
-            }
-            store.state.loading = false;
-        },
-        LoginResp
-    );
-})();
 
 export default store;

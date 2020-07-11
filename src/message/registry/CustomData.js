@@ -1,4 +1,4 @@
-import { Type, Field, MapField } from 'protobufjs';
+import { Type, Field } from 'protobufjs';
 
 const CustomData = new Type('CustomData')
     .add(new Field('key', 1, 'string', 'optional'))

@@ -13,7 +13,7 @@ const {
     mapMutations,
     mapGetters,
     mapActions
-} = createNamespacedHelpers('main');
+} = createNamespacedHelpers('main/registry');
 
 export default {
     name: 'RegistryDashboardPlugin',
@@ -21,13 +21,19 @@ export default {
     data() {
         return {};
     },
+    watch: {
+        services(newVal, oldVal) {
+            // 绘制图表
+            this.myChart.setOption(this.getOptions());
+        }
+    },
     computed: {
         ...mapState(['services']),
         groupNum() {
             return 0;
         },
         serviceNum() {
-            return 0;
+            return this.services.length;
         }
     },
     methods: {
@@ -65,12 +71,12 @@ export default {
     created() {},
     mounted() {
         // 基于准备好的dom，初始化echarts实例
-        const myChart = echarts.init(
+        this.myChart = echarts.init(
             document.getElementById('chart01'),
             'light'
         );
         // 绘制图表
-        myChart.setOption(this.getOptions());
+        this.myChart.setOption(this.getOptions());
     },
     beforeUpdate() {},
     updated() {},

@@ -46,6 +46,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import BgBlock from '@/components/bg-blocks/index.vue';
+import net from './net';
 const {
     mapState,
     mapMutations,
@@ -63,7 +64,9 @@ export default {
             password: ''
         };
     },
-    created() {},
+    created() {
+        net.init();
+    },
     computed: {
         ...mapState(['loading']),
         yearString() {

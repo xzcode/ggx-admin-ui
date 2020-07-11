@@ -1,8 +1,10 @@
 <template>
-    <div>registry</div>
+    <div>
+        <div class="registry-content">registry-content</div>
+    </div>
 </template>
 
-<script lang="ts">
+<script>
 import { createNamespacedHelpers } from 'vuex';
 
 const {
@@ -31,4 +33,16 @@ export default {
 
 <style lang="scss">
 @import '@/css/common.scss';
+
+.registry-content {
+    width: 280px;
+    background: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #fff;
+
+    &:hover {
+        border: 1px solid $color-primary;
+    }
+}
 </style>

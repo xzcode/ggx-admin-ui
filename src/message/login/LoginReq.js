@@ -1,6 +1,6 @@
 import { Type, Field } from 'protobufjs';
 
-const LoginReq = new Type('LoginResp')
+const LoginReq = new Type('LoginReq')
     .add(new Field('username', 1, 'string', 'optional'))
     .add(new Field('password', 2, 'string', 'optional'));
 
