@@ -10,17 +10,14 @@ const {
     mapMutations,
     mapGetters,
     mapActions
-} = createNamespacedHelpers('main');
+} = createNamespacedHelpers('main/registry');
 
 export default {
-    name: 'boot',
-    components: {},
+    name: 'registry-services',
     props: {},
     data() {
         return {};
     },
-    computed: {},
-    watch: {},
     methods: {},
     beforeCreate() {},
     created() {},

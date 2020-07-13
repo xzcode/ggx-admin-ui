@@ -6,19 +6,26 @@ import GetRegistryInfoReq from '@/message/registry/GetRegistryInfoReq';
 const store = {
     namespaced: true,
     state: {
-        services: []
+        services: [],
+        groups: new Map()
     },
     mutations: {
         updateServices(state, data) {
-            state.services = data;
+            state.services = data || [];
+            const groupsMap = new Map();
+            state.services.forEach(e => {
+                let group = groupsMap.get(e.serviceGroupId);
+                if (!group) {
+                    group = [];
+                    groupsMap.set(e.serviceGroupId, group);
+                }
+                group.push(e);
+                console.log(e,groupsMap)
+            });
+            state.groups = groupsMap;
         }
     },
     actions: {},
     getters: {}
 };
-(function initMessageHandler() {
-    setInterval(() => {
-        ggx.send(GetRegistryInfoReq.create());
-    }, 5000);
-})();
 export default store;

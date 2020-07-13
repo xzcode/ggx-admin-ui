@@ -1,11 +1,12 @@
 <template>
-    <div>
-        <div class="registry-content">registry-content</div>
-    </div>
+    <transition name="fade">
+        <router-view></router-view>
+    </transition>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import net from './net';
 
 const {
     mapState,
@@ -18,15 +19,26 @@ export default {
     name: 'boot',
     props: {},
     data() {
-        return {};
+        return {
+            updateRegistryInfoIntervalCode: undefined
+        };
     },
     methods: {},
     beforeCreate() {},
-    created() {},
+    created() {
+        net.init();
+
+        this.updateRegistryInfoIntervalCode = setInterval(() => {
+            net.getRegistryInfo();
+        }, 5000);
+    },
     mounted() {},
     beforeUpdate() {},
     updated() {},
-    beforeDestroy() {},
+    beforeDestroy() {
+        clearInterval(this.updateRegistryInfoIntervalCode);
+        this.updateRegistryInfoIntervalCode = undefined;
+    },
     destroyed() {}
 };
 </script>
@@ -34,7 +46,7 @@ export default {
 <style lang="scss">
 @import '@/css/common.scss';
 
-.registry-content {
+.registry-item-box {
     width: 280px;
     background: #fff;
     border-radius: 5px;

@@ -94,6 +94,7 @@ export default {
     },
     methods: {
         ...mapMutations([
+            'initMenus',
             'triggerFullscreen',
             'menuCollapse',
             'menuSelect',
@@ -101,6 +102,7 @@ export default {
         ])
     },
     created() {
+        this.initMenus();
         this.initTabs();
     }
 };
@@ -209,7 +211,7 @@ export default {
 
         .main-content {
             padding: 8px;
-            overflow: hidden;
+            overflow-y: scroll;
         }
 
         .main-footer {

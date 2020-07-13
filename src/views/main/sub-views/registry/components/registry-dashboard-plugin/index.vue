@@ -6,6 +6,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import net from '../../net';
 var echarts = require('echarts');
 
 const {
@@ -28,9 +29,9 @@ export default {
         }
     },
     computed: {
-        ...mapState(['services']),
+        ...mapState(['services', 'groups']),
         groupNum() {
-            return 0;
+            return this.groups.size;
         },
         serviceNum() {
             return this.services.length;
@@ -68,7 +69,9 @@ export default {
         }
     },
     beforeCreate() {},
-    created() {},
+    created() {
+        net.init();
+    },
     mounted() {
         // 基于准备好的dom，初始化echarts实例
         this.myChart = echarts.init(

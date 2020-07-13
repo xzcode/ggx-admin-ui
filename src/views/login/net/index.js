@@ -6,7 +6,6 @@ import LoginReq from '@/message/login/LoginReq';
 
 const net = {
     init() {
-        console.log(typeof LoginResp)
         ggx.onMessage(LoginResp, data => {
             if (data.success) {
                 store.commit('userinfo/updateAuthed', true);

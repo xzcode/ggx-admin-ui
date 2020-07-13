@@ -1,6 +1,5 @@
 import ggx from '@/net/ggx';
 import router from '@/router';
-import rootStore from '@/store';
 
 const store = {
     namespaced: true,

@@ -1,60 +1,9 @@
-import { router } from '@/router';
-import rootStore from '@/store';
+import { router, routes } from '@/router';
+import store from '@/store';
 import dashboard from '../sub-views/dashboard/store';
 import registry from '../sub-views/registry/store';
 import screenfull from 'screenfull';
 import ggx from '@/net/ggx';
-
-const menus = [
-    {
-        name: '首页',
-        path: '/main/dashboard',
-        icon: 'el-icon-odometer',
-        children: null
-    },
-    {
-        name: '注册中心',
-        path: '/main/registry',
-        icon: 'el-icon-view',
-        children: null
-    },
-    {
-        name: '系统管理',
-        path: '/main/system-config',
-        icon: 'el-icon-s-tools',
-        children: null
-    }
-    /* 
-    {
-        name: '测试01',
-        path: '/main/test01',
-        icon: 'el-icon-s-order',
-        children: [
-            {
-                name: '选项1',
-                path: '/main/test01/option01',
-                children: null
-            },
-            {
-                name: '选项2',
-                path: '/main/test01/option02',
-                children: null
-            },
-            {
-                name: '选项3',
-                path: '/main/test01/option03',
-                children: null
-            }
-        ]
-    },
-    {
-        name: '测试02',
-        path: '/main/test02',
-        icon: 'el-icon-star-on',
-        children: null
-    }
- */
-];
 
 function matchMenu(path, menus) {
     for (let i = 0; i < menus.length; i++) {
@@ -71,32 +20,25 @@ function matchMenu(path, menus) {
     }
 }
 
-function makeFullname(pMenus = [], fullnames = []) {
-    for (let i = 0; i < pMenus.length; i++) {
-        const m = pMenus[i];
-        m.fullnames = [...fullnames];
-        m.fullnames.push(m.name);
-        if (m.children) {
-            return makeFullname(m.children, [...m.fullnames]);
-        }
-    }
-}
-
-makeFullname(menus);
-
-const store = {
+export default {
     namespaced: true,
     state: {
-        menus,
+        menus: [],
         leftMenu: {
             isCollapse: false
         },
-        activeMenu: menus[0].path,
+        activeMenu: undefined,
         tabs: [],
         isFullscreen: false
     },
 
     mutations: {
+        initMenus(state) {
+            state.menus = routes.filter(
+                e => e.isMenu && e.name === 'main'
+            )[0].children;
+            state.activeMenu = state.menus[0].path;
+        },
         menuCollapse(state) {
             state.leftMenu.isCollapse = !state.leftMenu.isCollapse;
         },
@@ -119,10 +61,10 @@ const store = {
                 return;
             }
 
-            const closeable = menus[0].path !== menu.path;
+            const closeable = state.menus[0].path !== menu.path;
 
             selectedTab = {
-                name: menu.name,
+                name: menu.menuName,
                 path: menu.path,
                 fullnames: menu.fullnames,
                 closeable,
@@ -147,13 +89,12 @@ const store = {
                 tab.active = true;
             }
             router.currentRoute.path !== tab.path && router.push(tab.path);
-            rootStore.commit('main/menuSelect', tab.path);
+            store.commit('main/menuSelect', tab.path);
         },
         tabClick(state, path) {
-            rootStore.commit('main/menuSelect', path);
+            store.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
-        initMenu(state) {},
         hasTab(state, tabName) {
             for (const tab of state.tabs) {
                 if (tab.name === tabName) {
@@ -175,7 +116,7 @@ const store = {
 
             const selectedTab = state.tabs[index - 1];
             if (selectedTab) {
-                rootStore.commit('main/menuSelect', selectedTab.path);
+                store.commit('main/menuSelect', selectedTab.path);
                 router.currentRoute.path !== selectedTab.path &&
                     router.push(selectedTab.path);
             }
@@ -195,7 +136,7 @@ const store = {
                 return i === 0 || i >= index;
             });
             const path = currentTab.path;
-            rootStore.commit('main/menuSelect', path);
+            store.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
         tabRemoveRight(state) {
@@ -213,25 +154,25 @@ const store = {
                 return i <= index;
             });
             const path = currentTab.path;
-            rootStore.commit('main/menuSelect', path);
+            store.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
         tabRemoveAll(state) {
             state.tabs = [state.tabs[0]];
             const path = state.tabs[0].path;
-            rootStore.commit('main/menuSelect', path);
+            store.commit('main/menuSelect', path);
             router.currentRoute.path !== path && router.push(path);
         },
 
         initTabs(state) {
-            const menu = menus[0];
+            const menu = state.menus[0];
             const firstTabs = state.tabs.filter(e => e.path === menu.path);
             if (firstTabs && firstTabs.length > 0) {
                 return;
             }
             state.activeMenu = menu;
             const tab = {
-                name: menu.name,
+                name: menu.menuName,
                 path: menu.path,
                 fullnames: menu.fullnames,
                 closeable: false,
@@ -242,7 +183,7 @@ const store = {
             const initPath = router.currentRoute.path;
 
             if (initPath && initPath !== '') {
-                rootStore.commit('main/menuSelect', initPath);
+                store.commit('main/menuSelect', initPath);
             }
         },
         triggerFullscreen(state) {
@@ -261,5 +202,3 @@ const store = {
         registry
     }
 };
-
-export default store;

@@ -2,14 +2,23 @@ import ggx from '@/net/ggx';
 import store from '@/store';
 import router from '@/router';
 import GetRegistryInfoResp from '@/message/registry/GetRegistryInfoResp';
+import GetRegistryInfoReq from '@/message/registry/GetRegistryInfoReq';
 
 const net = {
+    inited: false,
     init() {
-        ggx.onMessage(GetRegistryInfoResp, data => {
-            store.commit('main/registry/updateServices', data.services);
+        if (this.inited) {
+            return;
+        }
+        ggx.onMessage(GetRegistryInfoResp, message => {
+            store.commit('main/registry/updateServices', message.data.services);
         });
+        this.getRegistryInfo();
+        net.inited = true;
     },
-    sendMessage(myReqData) {}
+    getRegistryInfo() {
+        ggx.send(GetRegistryInfoReq.create());
+    }
 };
 
 export default net;
