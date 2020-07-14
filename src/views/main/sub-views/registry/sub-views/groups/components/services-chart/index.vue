@@ -1,18 +1,11 @@
 <template>
-    <div class="registry-chart-view-content">
-        <div class="registry-group-chart-area">
-            <RegistryGroupsChart />
-        </div>
-        <div class="registry-service-chart-area">
-            <RegistryServicesChart />
-        </div>
+    <div class="registry-service-chart-content">
+        <div ref="registry-service-chart" id="registry-service-chart"></div>
     </div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import RegistryGroupsChart from './components/groups-chart';
-import RegistryServicesChart from './components/services-chart';
 const echarts = require('echarts');
 const {
     mapState,
@@ -22,38 +15,68 @@ const {
 } = createNamespacedHelpers('main/registry');
 
 export default {
-    name: 'registry-groups',
-    components: {
-        RegistryGroupsChart,
-        RegistryServicesChart
-    },
+    name: 'RegistryServicesChart',
     props: {},
     data() {
         return {};
     },
     computed: {
-        ...mapState(['groups'])
+        ...mapState(['groups', 'selectedGroupId'])
     },
     watch: {
         groups(newVal, oldVal) {
+            // 绘制图表
+            this.myChart.setOption(this.getOptions());
+        },
+        selectedGroupId(newVal, oldVal) {
             // 绘制图表
             this.myChart.setOption(this.getOptions());
         }
     },
     methods: {
         getOptions() {
+            const group = this.groups.get(this.selectedGroupId);
             const data = [];
-            this.groups.forEach((e, k) => {
-                data.push({
-                    value: e.length,
-                    serviceGroupId: e[0].serviceGroupId,
-                    name: e[0].serviceGroupDescName || k
-                });
-            });
+            let loadbalancerData = [];
+            let serviceData = [];
+            if (group) {
+                loadbalancerData = group.filter(
+                    e => e.serviceName.indexOf('loadbalancer') !== -1
+                );
+                serviceData = group.filter(
+                    e => e.serviceName.indexOf('loadbalancer') === -1
+                );
+
+                if (loadbalancerData && loadbalancerData.length > 0) {
+                    data.push({
+                        name:
+                            loadbalancerData[0].serviceDescName ||
+                            loadbalancerData[0].serviceId,
+                        value: loadbalancerData.length
+                    });
+                }
+                if (serviceData && serviceData.length > 0) {
+                    data.push({
+                        name:
+                            serviceData[0].serviceDescName ||
+                            serviceData[0].serviceId,
+                        value: serviceData.length
+                    });
+                }
+            }
             const option = {
                 title: {
-                    text: '注册中心分组视图',
-                    subtext: '分组数 ( ' + data.length + ' )',
+                    text:
+                        group[0].serviceGroupDescName ||
+                        group[0].serviceGroupId ||
+                        ' 视图',
+                    subtext: `${
+                        loadbalancerData.length > 0
+                            ? '负载均衡服务数 (' +
+                              loadbalancerData.length +
+                              ')  '
+                            : ''
+                    }服务数(${serviceData.length})`,
                     left: 'center'
                 },
                 tooltip: {
@@ -108,12 +131,16 @@ export default {
     mounted() {
         // 基于准备好的dom，初始化echarts实例
         this.myChart = echarts.init(
-            document.getElementById('registry-group-chart'),
+            document.getElementById('registry-service-chart'),
             'default'
         );
         // 绘制图表
         this.myChart.setOption(this.getOptions());
 
+        // 添加点击事件
+        this.myChart.on('click', data => {
+            console.log(data);
+        });
     },
     beforeUpdate() {},
     updated() {},
@@ -125,17 +152,18 @@ export default {
 <style lang="scss">
 @import '@/css/common.scss';
 
-.registry-chart-view-content {
+.registry-service-chart-content {
     display: flex;
     flex-wrap: wrap;
     height: 100%;
+    width: 100%;
 
-    .registry-group-chart-area {
-        width: 50%;
+    .registry-item-box {
+        margin: 10px;
     }
-
-    .registry-service-chart-area {
-        width: 50%;
+    #registry-service-chart {
+        width: 100%;
+        height: 100%;
     }
 }
 </style>

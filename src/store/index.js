@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import userinfoStore from './userinfo/store';
+import userStore from './user';
 import loginStore from '../views/login/store';
 import mainStore from '../views/main/store';
 
@@ -18,7 +18,7 @@ export default new Vuex.Store({
     },
     actions: {},
     modules: {
-        userinfo: userinfoStore,
+        user: userStore,
         login: loginStore,
         main: mainStore
     }

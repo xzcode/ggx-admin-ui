@@ -41,7 +41,7 @@ const {
     mapMutations,
     mapGetters,
     mapActions
-} = createNamespacedHelpers('userinfo');
+} = createNamespacedHelpers('user');
 
 export default {
     name: 'UserMenu',

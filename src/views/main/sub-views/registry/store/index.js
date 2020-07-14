@@ -1,13 +1,14 @@
 import ggx from '@/net/ggx';
-import rootStore from '@/store';
+import store from '@/store';
 import GetRegistryInfoResp from '@/message/registry/GetRegistryInfoResp';
 import GetRegistryInfoReq from '@/message/registry/GetRegistryInfoReq';
 
-const store = {
+export default {
     namespaced: true,
     state: {
         services: [],
-        groups: new Map()
+        groups: new Map(),
+        selectedGroupId: undefined
     },
     mutations: {
         updateServices(state, data) {
@@ -20,12 +21,16 @@ const store = {
                     groupsMap.set(e.serviceGroupId, group);
                 }
                 group.push(e);
-                console.log(e,groupsMap)
+                if (!state.selectedGroupId) {
+                    state.selectedGroupId = e.serviceGroupId;
+                }
             });
             state.groups = groupsMap;
+        },
+        updateSelectedGroupId(state, data) {
+            state.selectedGroupId = data;
         }
     },
     actions: {},
     getters: {}
 };
-export default store;

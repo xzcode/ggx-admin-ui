@@ -6,6 +6,7 @@ import screenfull from 'screenfull';
 import ggx from '@/net/ggx';
 
 function matchMenu(path, menus) {
+    console.log(menus, path)
     for (let i = 0; i < menus.length; i++) {
         const m = menus[i];
         if (m.path === path) {

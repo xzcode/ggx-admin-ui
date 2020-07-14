@@ -18,6 +18,7 @@ const {
 export default {
     name: 'boot',
     props: {},
+    components: {},
     data() {
         return {
             updateRegistryInfoIntervalCode: undefined

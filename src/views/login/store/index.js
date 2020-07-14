@@ -2,10 +2,10 @@ import ggx from '@/net/ggx';
 import LoginReq from '@/message/login/LoginReq';
 import LoginResp from '@/message/login/LoginResp';
 import router from '@/router';
-import rootStore from '@/store';
+import store from '@/store';
 import net from '../net';
 
-const store = {
+export default {
     namespaced: true,
     state: {
         loading: false,
@@ -29,5 +29,3 @@ const store = {
         }
     }
 };
-
-export default store;

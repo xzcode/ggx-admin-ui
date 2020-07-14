@@ -23,7 +23,7 @@ export default {
         return {};
     },
     watch: {
-        services(newVal, oldVal) {
+        groups(newVal, oldVal) {
             // 绘制图表
             this.myChart.setOption(this.getOptions());
         }
@@ -38,34 +38,81 @@ export default {
         }
     },
     methods: {
+        ...mapMutations(['updateSelectedGroupId']),
         routeToRegistry() {
-            this.$store.commit('main/tabClick', '/main/registry');
+            this.$store.commit('main/tabClick', '/main/registry/groups');
         },
         getOptions() {
-            return {
+            const data = [];
+            this.groups.forEach((e, k) => {
+                data.push({
+                    value: e.length,
+                    serviceGroupId: e[0].serviceGroupId,
+                    name: e[0].serviceGroupDescName || k
+                });
+            });
+            const option = {
                 title: {
-                    text: '注册中心'
+                    text: '    注册中心',
+                    subtext: `分组数(${data.length}) 服务数(${this.services.length})`,
+                    left: '45%'
                 },
-                tooltip: {},
-                xAxis: {
-                    data: ['分组数', '服务数']
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c}'
                 },
-                yAxis: {},
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    itemWidth: 16,
+                    itemHeight: 8,
+                    padding: 2,
+                    left: 0,
+                    textStyle: {
+                        fontSize: 10
+                    },
+                    formatter: function(name, e) {
+                        let num = 0;
+                        for (let i = 0; i < data.length; i++) {
+                            const d = data[i];
+                            if (d.name === name) {
+                                num = d.value;
+                                break;
+                            }
+                        }
+                        return `${name} (${num})`;
+                    }
+                },
                 series: [
                     {
-                        name: '数量',
-                        type: 'bar',
-                        data: [this.groupNum, this.serviceNum],
-                        showBackground: true,
-                        backgroundStyle: {
-                            color: '#ccc'
-                        },
+                        name: '服务数量',
+                        type: 'pie',
+                        width: '90%',
+                        height: '90%',
+                        radius: ['50%', '70%'],
+                        center: ['75%', '60%'],
                         label: {
-                            show: true
-                        }
+                            show: false,
+                            fontSize: 11,
+                            formatter: '{b} ({c})'
+                        },
+                        emphasis: {
+                            label: {
+                                show: false,
+                                fontSize: '11',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false,
+                            length: 0
+                        },
+                        data: data
                     }
                 ]
             };
+
+            return option;
         }
     },
     beforeCreate() {},
@@ -76,10 +123,16 @@ export default {
         // 基于准备好的dom，初始化echarts实例
         this.myChart = echarts.init(
             document.getElementById('chart01'),
-            'light'
+            'default'
         );
         // 绘制图表
         this.myChart.setOption(this.getOptions());
+
+        // 添加点击事件
+        this.myChart.on('click', e => {
+            console.log(e);
+            this.updateSelectedGroupId(e.data.serviceGroupId);
+        });
     },
     beforeUpdate() {},
     updated() {},
@@ -92,7 +145,7 @@ export default {
 @import '@/css/common.scss';
 
 .registry-dashboard-plugin {
-    width: 280px;
+    width: 300px;
     background: #fff;
     border-radius: 5px;
     padding: 10px;
@@ -103,7 +156,7 @@ export default {
     }
 
     #chart01 {
-        height: 200px;
+        height:260px;
     }
 }
 </style>

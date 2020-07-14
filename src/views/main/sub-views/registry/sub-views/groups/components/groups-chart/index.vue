@@ -1,18 +1,11 @@
 <template>
-    <div class="registry-chart-view-content">
-        <div class="registry-group-chart-area">
-            <RegistryGroupsChart />
-        </div>
-        <div class="registry-service-chart-area">
-            <RegistryServicesChart />
-        </div>
+    <div class="registry-group-chart-content">
+        <div ref="registry-group-chart" id="registry-group-chart"></div>
     </div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import RegistryGroupsChart from './components/groups-chart';
-import RegistryServicesChart from './components/services-chart';
 const echarts = require('echarts');
 const {
     mapState,
@@ -22,11 +15,7 @@ const {
 } = createNamespacedHelpers('main/registry');
 
 export default {
-    name: 'registry-groups',
-    components: {
-        RegistryGroupsChart,
-        RegistryServicesChart
-    },
+    name: 'RegistryGroupsChart',
     props: {},
     data() {
         return {};
@@ -41,6 +30,7 @@ export default {
         }
     },
     methods: {
+        ...mapMutations(['updateSelectedGroupId']),
         getOptions() {
             const data = [];
             this.groups.forEach((e, k) => {
@@ -114,6 +104,10 @@ export default {
         // 绘制图表
         this.myChart.setOption(this.getOptions());
 
+        // 添加点击事件
+        this.myChart.on('click', e => {
+            this.updateSelectedGroupId(e.data.serviceGroupId);
+        });
     },
     beforeUpdate() {},
     updated() {},
@@ -125,17 +119,18 @@ export default {
 <style lang="scss">
 @import '@/css/common.scss';
 
-.registry-chart-view-content {
+.registry-group-chart-content {
     display: flex;
     flex-wrap: wrap;
     height: 100%;
+    width: 100%;
 
-    .registry-group-chart-area {
-        width: 50%;
+    .registry-item-box {
+        margin: 10px;
     }
-
-    .registry-service-chart-area {
-        width: 50%;
+    #registry-group-chart {
+        width: 100%;
+        height: 100%;
     }
 }
 </style>

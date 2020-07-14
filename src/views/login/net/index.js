@@ -6,10 +6,11 @@ import LoginReq from '@/message/login/LoginReq';
 
 const net = {
     init() {
-        ggx.onMessage(LoginResp, data => {
-            if (data.success) {
-                store.commit('userinfo/updateAuthed', true);
-                router.push('main');
+        ggx.onMessage(LoginResp, resp => {
+            console.log(resp.data.success)
+            if (resp.data.success) {
+                store.commit('user/updateAuthed', true);
+                router.push('/main');
             }
             store.commit('login/updateLoading', false);
         });
