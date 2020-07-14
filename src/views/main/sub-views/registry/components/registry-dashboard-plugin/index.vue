@@ -130,7 +130,6 @@ export default {
 
         // 添加点击事件
         this.myChart.on('click', e => {
-            console.log(e);
             this.updateSelectedGroupId(e.data.serviceGroupId);
         });
     },
