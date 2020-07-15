@@ -46,9 +46,9 @@ export default {
             const data = [];
             this.groups.forEach((e, k) => {
                 data.push({
-                    value: e.length,
-                    serviceGroupId: e[0].serviceGroupId,
-                    name: e[0].serviceGroupDescName || k
+                    value: e.services.length,
+                    serviceGroupId: e.serviceGroupId,
+                    name: e.serviceGroupDescName || k
                 });
             });
             const option = {

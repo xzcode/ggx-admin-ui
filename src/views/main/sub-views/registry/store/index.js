@@ -1,5 +1,6 @@
 import ggx from '@/net/ggx';
 import store from '@/store';
+import servicesStore from '../sub-views/services/store';
 import GetRegistryInfoResp from '@/message/registry/GetRegistryInfoResp';
 import GetRegistryInfoReq from '@/message/registry/GetRegistryInfoReq';
 
@@ -17,10 +18,14 @@ export default {
             state.services.forEach(e => {
                 let group = groupsMap.get(e.serviceGroupId);
                 if (!group) {
-                    group = [];
+                    group = {
+                        serviceGroupId: e.serviceGroupId,
+                        serviceGroupDescName: e.serviceGroupDescName,
+                        services: []
+                    };
                     groupsMap.set(e.serviceGroupId, group);
                 }
-                group.push(e);
+                group.services.push(e);
                 if (!state.selectedGroupId) {
                     state.selectedGroupId = e.serviceGroupId;
                 }
@@ -32,5 +37,8 @@ export default {
         }
     },
     actions: {},
-    getters: {}
+    getters: {},
+    modules: {
+        services: servicesStore
+    }
 };

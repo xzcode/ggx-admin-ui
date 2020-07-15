@@ -40,10 +40,10 @@ export default {
             let loadbalancerData = [];
             let serviceData = [];
             if (group) {
-                loadbalancerData = group.filter(
+                loadbalancerData = group.services.filter(
                     e => e.serviceName.indexOf('loadbalancer') !== -1
                 );
-                serviceData = group.filter(
+                serviceData = group.services.filter(
                     e => e.serviceName.indexOf('loadbalancer') === -1
                 );
 
@@ -67,8 +67,8 @@ export default {
             const option = {
                 title: {
                     text:
-                        group[0].serviceGroupDescName ||
-                        group[0].serviceGroupId ||
+                        group.serviceGroupDescName ||
+                        group.serviceGroupId ||
                         ' 视图',
                     subtext: `${
                         loadbalancerData.length > 0

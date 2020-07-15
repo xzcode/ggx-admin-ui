@@ -4,15 +4,14 @@ import router from '@/router';
 const store = {
     namespaced: true,
     state: {
-        loading: false,
-        username: null,
-        password: null,
-        logined: false
+        selectedGroupId: undefined
     },
-    mutations: {},
+    mutations: {
+        updateSelectedGroupId(state, data) {
+            state.selectedGroupId = data;
+        }
+    },
     actions: {}
 };
-
-(function initMessageHandler() {})();
 
 export default store;
