@@ -9,7 +9,9 @@ export default {
     state: {
         services: [],
         groups: new Map(),
-        selectedGroupId: undefined
+        selectedGroupId: undefined,
+        searchGroupId: undefined,
+        searchKeyword: undefined
     },
     mutations: {
         updateServices(state, data) {
@@ -34,6 +36,12 @@ export default {
         },
         updateSelectedGroupId(state, data) {
             state.selectedGroupId = data;
+        },
+        updateSearchKeyword(state, data) {
+            state.searchKeyword = data;
+        },
+        updateSearchGroupId(state, data) {
+            state.searchGroupId = data;
         }
     },
     actions: {},
