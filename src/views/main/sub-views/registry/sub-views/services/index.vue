@@ -20,7 +20,7 @@
             ></el-input>
         </el-header>
         <el-main class="services-container">
-            <template v-for="item in services">
+            <template v-for="item in showServices">
                 <div
                     v-if="services.length > 0"
                     class="service-item"
@@ -29,19 +29,14 @@
                     <div class="service-item-title">
                         {{ item.serviceDescName }}
                     </div>
-                    <div class="service-item-id">{{ item.serviceName }}</div>
                     <div class="service-item-id">{{ item.serviceGroupId }}</div>
+                    <div class="service-item-id">{{ item.serviceName }}</div>
                     <div class="service-item-id">{{ item.serviceId }}</div>
-                    <div class="service-item-id">{{ item.host }}</div>
-                    <div class="service-item-id">
-                        <template v-for="(cuitem, index) in item.customData">
-                            <div
-                                :key="'cuitem' + index"
-                                v-if="cuitem.key == 'ROUTER_SERVICE_PORT'"
-                            >
-                                {{ cuitem.key }}: {{ cuitem.value }}
-                            </div>
-                        </template>
+                    <div v-if="!item.port" class="service-item-id">
+                        {{ item.host }}
+                    </div>
+                    <div v-if="item.port" class="service-item-id">
+                        {{ item.host }} : {{ item.port }}
                     </div>
                 </div>
             </template>
@@ -68,6 +63,22 @@ export default {
             'searchGroupId',
             'searchKeyword'
         ]),
+        showServices() {
+            let arr = this.services;
+            if (this.searchGroupId) {
+                arr = arr.filter(e => e.serviceGroupId === this.searchGroupId);
+            }
+            if (this.keyword) {
+                arr = arr.filter(
+                    e =>
+                        e.serviceDescName.indexOf(this.keyword) !== -1 ||
+                        e.serviceGroupId.indexOf(this.keyword) !== -1 ||
+                        e.serviceName.indexOf(this.keyword) !== -1 ||
+                        e.serviceName.indexOf(this.keyword) !== -1
+                );
+            }
+            return arr;
+        },
         selectedGroup: {
             get() {
                 return this.searchGroupId;
@@ -78,10 +89,10 @@ export default {
         },
         keyword: {
             get() {
-                return this.searchGroupId;
+                return this.searchKeyword;
             },
             set(value) {
-                this.updateSearchGroupId(value);
+                this.updateSearchKeyword(value);
             }
         }
     },
@@ -109,7 +120,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         .service-item {
-            width: 300px;
+            width: 260px;
             background: #fff;
             border-radius: 5px;
             padding: 10px;

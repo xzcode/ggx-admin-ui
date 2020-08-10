@@ -1,10 +1,10 @@
-import ServiceModel from './ServiceModel';
+import ServiceDataModel from './ServiceDataModel';
 
 import { Type, Field } from 'protobufjs';
 
 const GetRegistryInfoResp = new Type('GetRegistryInfoResp').add(
-    new Field('services', 1, 'ServiceModel', 'repeated')
+    new Field('services', 1, 'ServiceDataModel', 'repeated')
 );
-GetRegistryInfoResp.add(ServiceModel);
+GetRegistryInfoResp.add(ServiceDataModel);
 
 export default GetRegistryInfoResp;

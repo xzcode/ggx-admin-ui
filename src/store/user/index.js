@@ -7,7 +7,7 @@ const store = {
     state: {
         userInfo: {
             username: 'unknown',
-            avatar: '',
+            avatar: undefined,
             token: null,
             authed: false,
             permissions: []

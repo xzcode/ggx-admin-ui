@@ -1,24 +1,7 @@
 <template>
     <el-container class="main-container">
         <el-aside class="main-left-side" width="auto">
-            <el-menu
-                class="left-menu"
-                :router="true"
-                :collapse="leftMenu.isCollapse"
-                background-color="#232323"
-                text-color="#ffffff"
-                active-text-color="#409EFF"
-                :class="[leftMenu.isCollapse ? 'collapsed' : '']"
-                :collapse-transition="true"
-                @select="menuSelect"
-                :default-active="activeMenu.path"
-            >
-                <div class="main-logo" v-if="!leftMenu.isCollapse">
-                    <div style="min-width: 200px;">GGX ADMIN UI</div>
-                </div>
-
-                <menutree :data="menus" />
-            </el-menu>
+            <menutree />
         </el-aside>
 
         <el-container class="main-right-side">

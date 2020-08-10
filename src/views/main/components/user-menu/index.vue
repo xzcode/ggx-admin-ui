@@ -1,24 +1,10 @@
 <template>
     <div class="user-menu">
         <el-dropdown trigger="click">
-            <el-image class="avatar" :src="userInfo.avatar" fit="cover">
-                <template slot="error">
-                    <div
-                        class="default-avatar"
-                        style="
-                            width: 100%;
-                          height: 100%;
-                          display: flex;
-                          justify-content: center;
-                          align-items: center;
-                          font-size: 24px;
-                          color: #ccc;
-                            "
-                    >
-                        <i class="el-icon-user-solid"></i>
-                    </div>
-                </template>
-            </el-image>
+            <el-avatar
+                shape="square"
+                :src="userInfo.avatar || defaultAvatar"
+            ></el-avatar>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item icon="el-icon-user-solid">{{
                     userInfo.username
@@ -36,6 +22,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import defaultAvatar from '@/assets/default-avatar.jpg';
 const {
     mapState,
     mapMutations,
@@ -47,7 +34,9 @@ export default {
     name: 'UserMenu',
     props: {},
     data() {
-        return {};
+        return {
+            defaultAvatar
+        };
     },
     computed: {
         ...mapState(['userInfo'])
